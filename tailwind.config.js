@@ -5,8 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+
       fontFamily: {
-        space: ["Space Grotesk", "sans-serif"],
+        sans: ["Space Grotesk", "sans-serif"],
       },
       fontWeight: {
         semibold: 600,

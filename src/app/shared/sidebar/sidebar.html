@@ -1,14 +1,45 @@
-<div>
-<div>Management App</div>
 
-<ul>
-  <li><a href="#"><lucide-icon name="layout-dashboard"class="w-5 h-5"></lucide-icon>Dashboard</a></li>
-  <li><a href="#"><lucide-icon name="ticket" class="w-5 h-5"></lucide-icon>  Tickets</a></li>
-  <li><a href="#"><lucide-icon name="users" class="w-5 h-5"></lucide-icon>Teams</a></li>
-  <li><a href="#"><lucide-icon name="message-square" class="w-5 h-5"></lucide-icon> Discussions</a></li>
-  <li><a href="#"><lucide-icon name="video" class="w-5 h-5"></lucide-icon> Meetings</a></li>
-  <li><a href="#"><lucide-icon name="bell" class="w-5 h-5"></lucide-icon> Notifications</a></li>
+<div class="bg-gray-900 h-screen w-64 flex flex-col justify-between p-4 font-semibold">
+<div class="flex items-center gap-3 text-white mb-8 border border-gray-700 bg-gray-600 rounded p-1.5 "><lucide-icon name="chart-no-axes-gantt"></lucide-icon>Management App</div>
+
+<ul class="flex-1 space-y-4">
+  <li>
+    <a  routerLink="/dashboard"
+        routerLinkActive="active"
+
+        class="flex items-center gap-3 text-white border border-transparent hover:border-gray-800 hover:bg-gray-800 transition rounded p-1.5  " >
+      <lucide-icon name="layout-dashboard" ></lucide-icon>Dashboard</a>
+  </li>
+
+
+  <li><a routerLink="/tickets"
+         routerLinkActive="active"
+         class="flex items-center gap-3 text-white border border-transparent hover:border-gray-800 hover:bg-gray-800 transition rounded p-1.5" >
+    <lucide-icon name="ticket"></lucide-icon>  Tickets</a></li>
+
+  <li><a  routerLink="/teams"
+          routerLinkActive="active"
+         class="flex items-center gap-3 text-white border border-transparent hover:border-gray-800 hover:bg-gray-800 transition rounded p-1.5">
+    <lucide-icon name="users" ></lucide-icon>Teams</a></li>
+
+  <li><a routerLink="/discussions"
+         routerLinkActive="active"
+         class="flex items-center gap-3 text-white border border-transparent hover:border-gray-800 hover:bg-gray-800 transition rounded p-1.5">
+    <lucide-icon name="message-square" ></lucide-icon> Discussions</a></li>
+
+
+
+  <li><a routerLink="/meetings"
+         routerLinkActive="active"
+         class="flex items-center gap-3 text-white border border-transparent hover:border-gray-800 hover:bg-gray-800 transition rounded p-1.5">
+    <lucide-icon name="video" ></lucide-icon> Meetings</a></li>
+
+
+  <li><a routerLink="/notifications"
+         routerLinkActive="active"
+         class="flex items-center gap-3 text-white border border-transparent hover:border-gray-800 hover:bg-gray-800 transition rounded p-1.5">
+    <lucide-icon name="bell"></lucide-icon> Notifications</a></li>
 </ul>
 
-<div><lucide-icon name="log-out" class="w-5 h-5"></lucide-icon>Logout</div>
+<button class="flex items-center gap-3 text-white border border-rose-950 bg-rose-950 rounded p-1.5" ><lucide-icon name="log-out" ></lucide-icon>Logout</button>
 </div>

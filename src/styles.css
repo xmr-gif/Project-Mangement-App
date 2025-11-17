@@ -5,3 +5,6 @@
 body {
   @apply font-sans font-semibold;
 }
+.active {
+  @apply border-gray-800 bg-gray-800;
+}
