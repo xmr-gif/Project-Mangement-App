@@ -2,47 +2,47 @@
   <div class="flex items-center justify-between">
     <!-- Left Side - Project Dropdown -->
     <div class="relative">
-      <button 
+      <button
         (click)="toggleProjectDropdown()"
         class="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors text-white">
         <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
         </svg>
         <span class="font-medium">Project: {{ selectedProject.name }}</span>
-        <svg 
+        <svg
           class="w-4 h-4 text-gray-400 transition-transform"
           [class.rotate-180]="isProjectDropdownOpen"
-          fill="none" 
-          stroke="currentColor" 
+          fill="none"
+          stroke="currentColor"
           viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
 
       <!-- Dropdown Menu -->
-      <div 
+      <div
         *ngIf="isProjectDropdownOpen"
         class="absolute left-0 mt-2 w-64 bg-[#252836] rounded-lg shadow-xl border border-gray-700 py-2 z-50">
         <div class="px-3 py-2 text-xs text-gray-400 uppercase font-semibold">
           Switch Project Environment:
         </div>
-        <div *ngFor="let project of projects" 
+        <div *ngFor="let project of projects"
              (click)="selectProject(project)"
              class="px-4 py-2.5 hover:bg-gray-700 cursor-pointer flex items-center justify-between transition-colors">
           <span class="text-white">{{ project.name }}</span>
-          <span 
+          <span
             *ngIf="project.id === selectedProject.id"
             class="w-2 h-2 bg-blue-500 rounded-full"></span>
         </div>
       </div>
-    </div>  
+    </div>
 
     <!-- Right Side - Notifications and Profile -->
     <div class="flex items-center gap-3">
       <!-- Notifications Button -->
       <button class="relative p-2 rounded-lg hover:bg-gray-800 transition-colors">
-        <lucide-icon name="layout-grid" class="w-6 h-6 text-gray-300"></lucide-icon>
-        <span 
+        <lucide-icon name="Bell" class="w-6 h-6 text-white"></lucide-icon>
+        <span
           *ngIf="hasNotifications"
           class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-[#1a1d29]">
         </span>
@@ -50,16 +50,16 @@
 
 <!-- Applications Dropdown -->
 <div class="relative">
-  <button 
+  <button
     (click)="toggleAppsDropdown()"
     class="p-2 rounded-lg hover:bg-gray-800 transition-colors flex items-center">
-    
+
     <!-- Apps Icon (grid) -->
     <lucide-icon name="layout-grid" class="w-6 h-6 text-gray-300" ></lucide-icon>
   </button>
 
   <!-- Dropdown Menu -->
-  <div 
+  <div
     *ngIf="isAppsDropdownOpen"
     class="absolute right-0 mt-2 w-56 bg-[#252836] rounded-lg shadow-xl border border-gray-700 py-2 z-50">
 
@@ -87,25 +87,25 @@
 
       <!-- Profile Dropdown -->
       <div class="relative">
-        <button 
+        <button
           (click)="toggleProfileDropdown()"
           class="flex items-center gap-2 p-1 rounded-lg hover:bg-gray-800 transition-colors">
-          <img 
-            src="https://ui-avatars.com/api/?name=User+Name&background=6366f1&color=fff" 
-            alt="Profile" 
+          <img
+            src="https://ui-avatars.com/api/?name=User+Name&background=6366f1&color=fff"
+            alt="Profile"
             class="w-8 h-8 rounded-full">
-          <svg 
+          <svg
             class="w-4 h-4 text-gray-400 transition-transform"
             [class.rotate-180]="isProfileDropdownOpen"
-            fill="none" 
-            stroke="currentColor" 
+            fill="none"
+            stroke="currentColor"
             viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
         </button>
 
         <!-- Profile Dropdown Menu -->
-        <div 
+        <div
           *ngIf="isProfileDropdownOpen"
           class="absolute right-0 mt-2 w-56 bg-[#252836] rounded-lg shadow-xl border border-gray-700 py-2 z-50">
           <div class="px-4 py-3 border-b border-gray-700">
@@ -133,7 +133,7 @@
 </nav>
 
 <!-- Overlay to close dropdowns when clicking outside -->
-<div 
+<div
   *ngIf="isProjectDropdownOpen || isProfileDropdownOpen"
   (click)="closeDropdowns()"
   class="fixed inset-0 z-40">
