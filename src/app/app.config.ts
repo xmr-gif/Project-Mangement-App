@@ -7,7 +7,7 @@ import {
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import {LayoutDashboard, Users,MessageSquare,Video,Bell,LogOut,Ticket, LayoutGrid,
+import {LayoutDashboard, Users,MessageSquare,Video,Bell,LogOut,Ticket, LayoutGrid,CalendarClock,
   ChartNoAxesGantt,LucideAngularModule} from 'lucide-angular';
 
 
@@ -27,8 +27,8 @@ export const appConfig: ApplicationConfig = {
         Bell,
         ChartNoAxesGantt,
         LogOut,
-        LayoutGrid
-
+        LayoutGrid,
+        CalendarClock
       })
     ),
 
