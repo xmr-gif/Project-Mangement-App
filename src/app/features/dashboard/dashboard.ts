@@ -3,6 +3,9 @@ import {Sidebar} from '../../shared/sidebar/sidebar';
 import {TicketsBoard} from '../tickets/components/tickets-board/tickets-board';
 import {Overview} from './overview/overview';
 import {NavbarComponent} from '../../shared/navbar/navbar';
+import {MeetingsComponent} from './meetings/meetings';
+import {RecentDiscussionsComponent} from './recent-disscussions/recent-disscussions';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +13,9 @@ import {NavbarComponent} from '../../shared/navbar/navbar';
     Sidebar,
     TicketsBoard,
     Overview,
-    NavbarComponent
+    NavbarComponent,
+    MeetingsComponent,
+    RecentDiscussionsComponent
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
