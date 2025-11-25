@@ -4,8 +4,9 @@
             [&::-webkit-scrollbar-thumb]:bg-gray-700
             [&::-webkit-scrollbar-thumb]:rounded-md">
 
-  @for (meeting of meetings; track meeting) {
+  @for (meeting of filteredMeetings(); track meeting) {
     <div 
+      (click)="selectMeeting(meeting)"
       [class]="isSelected(meeting) 
         ? 'bg-blue-800 border-blue-600' 
         : 'bg-gray-800 border-gray-700'"
@@ -28,13 +29,10 @@
         </p>
       </div>
 
-      <!-- Right: Optional actions -->
+      <!-- Right: Button -->
       <button 
         (click)="selectMeeting(meeting)"
-        [class]="isSelected(meeting)
-          ? 'bg-blue-800 hover:bg-blue-600'
-          : 'bg-blue-800 hover:bg-blue-600'"
-        class="rounded-lg px-3 py-1 text-sm text-white flex items-center gap-1 transition-colors"
+        class="rounded-lg px-3 py-1 text-sm text-white flex items-center gap-1 transition-colors bg-blue-800 hover:bg-blue-600"
       >
         <lucide-angular name="Info" class="w-4 h-4"></lucide-angular>
         Details

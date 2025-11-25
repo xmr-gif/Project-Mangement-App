@@ -1,4 +1,6 @@
 import { Component,   } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import {NavbarComponent} from '../../shared/navbar/navbar';
 import {Sidebar} from '../../shared/sidebar/sidebar';
 import { LucideAngularModule } from "lucide-angular";
@@ -10,12 +12,14 @@ import { ScheduleMeetingModalComponent } from "./schedule-meeting/schedule-meeti
 @Component({
   selector: 'app-meetings-page',
   imports: [
-    NavbarComponent,
+    CommonModule,
+    FormsModule,
     Sidebar,
-    LucideAngularModule,
+    NavbarComponent,
     UpcomingMeetings,
     UpcomingDetails,
-    ScheduleMeetingModalComponent
+    ScheduleMeetingModalComponent,
+    LucideAngularModule
 ],
   templateUrl: './meetings-page.html',
   styleUrl: './meetings-page.css',
@@ -23,7 +27,9 @@ import { ScheduleMeetingModalComponent } from "./schedule-meeting/schedule-meeti
 export class MeetingsPage {
   selectedMeeting: Meeting | null = null;
   showScheduleModal: boolean | undefined;
-  
+   activeFilter: 'all' | 'today' | 'week' | 'my' = 'all';
+  searchQuery: string = '';
+
 
   onMeetingSelected(meeting: Meeting) {
     this.selectedMeeting = meeting;
@@ -44,5 +50,12 @@ export class MeetingsPage {
     console.log('New meeting scheduled:', meeting);
     // Here you can add logic to save the meeting to your backend or state
     this.showScheduleModal = false;
+  }
+   setFilter(filter: 'all' | 'today' | 'week' | 'my') {
+    this.activeFilter = filter;
+  }
+
+  onSearchChange(query: string) {
+    this.searchQuery = query;
   }
 }

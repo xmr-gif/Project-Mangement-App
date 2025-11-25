@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from "lucide-angular";
 import { Meeting } from '../models/meetings.model';
@@ -16,6 +16,8 @@ export class UpcomingMeetings {
   
   // Receive selected meeting from parent
   selectedMeeting = input<Meeting | null>(null);
+  filterType = input<'all' | 'today' | 'week' | 'my'>('all');
+  searchQuery = input<string>('');
 
   meetings: Meeting[] = [
     { titre: 'Sprint Planning', dateDebut: '2025-11-25', heureDebut: '10:00', heureFin: '11:30',
@@ -38,6 +40,48 @@ export class UpcomingMeetings {
     { titre: 'Code Review', dateDebut: '2025-12-03', heureDebut: '14:30', heureFin: '15:30',
       Participants: ['https://i.pravatar.cc/150?img=1', 'https://i.pravatar.cc/150?img=2'], },
   ];
+ // Computed property to filter meetings
+  filteredMeetings = computed(() => {
+    let filtered = this.meetings;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Apply date filter
+    switch (this.filterType()) {
+      case 'today':
+        filtered = filtered.filter(meeting => {
+          const meetingDate = new Date(meeting.dateDebut);
+          meetingDate.setHours(0, 0, 0, 0);
+          return meetingDate.getTime() === today.getTime();
+        });
+        break;
+      
+      case 'week':
+        const nextWeek = new Date(today);
+        nextWeek.setDate(today.getDate() + 7);
+        filtered = filtered.filter(meeting => {
+          const meetingDate = new Date(meeting.dateDebut);
+          return meetingDate >= today && meetingDate <= nextWeek;
+        });
+        break;
+      
+      case 'my':
+        // For now, show all meetings. You can add logic to filter by user
+        filtered = filtered;
+        break;
+    }
+
+    // Apply search filter
+    const query = this.searchQuery().toLowerCase();
+    if (query) {
+      filtered = filtered.filter(meeting => 
+        meeting.titre.toLowerCase().includes(query)
+      );
+    }
+
+    return filtered;
+  });
+
 
   selectMeeting(meeting: Meeting) {
     this.onMeetingSelect.emit(meeting);
