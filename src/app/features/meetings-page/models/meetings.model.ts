@@ -3,4 +3,5 @@ export interface Meeting {
   dateDebut: string;   
   heureDebut: string; 
   heureFin: string;
+  Participants: string[];
 }

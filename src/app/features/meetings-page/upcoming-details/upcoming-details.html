@@ -13,6 +13,30 @@
 
   <!-- Meeting Info -->
   <div class="space-y-4">
+     <div>
+      <label class="text-gray-400 text-sm flex items-center gap-2 mb-2">
+        <lucide-angular name="Users" class="w-4 h-4"></lucide-angular>
+        Participants ({{ meeting().Participants.length }})
+      </label>
+     <div class="max-h-[150px] overflow-y-scroll pr-2
+            [&::-webkit-scrollbar]:w-2
+            [&::-webkit-scrollbar-track]:bg-gray-800
+            [&::-webkit-scrollbar-thumb]:bg-gray-700
+            [&::-webkit-scrollbar-thumb]:rounded-md">
+
+  @for (participant of meeting().Participants; track participant; let i = $index) {
+    <div class="flex items-center gap-2 py-1">
+      <img
+        [src]="participant"
+        [alt]="'Participant ' + (i + 1)"
+        class="w-8 h-8 rounded-full"
+      />
+      <span class="text-white text-sm">Participant {{ i + 1 }}</span>
+    </div>
+  }
+</div>
+
+    </div>
     
     <!-- Title -->
     <div>
@@ -41,6 +65,7 @@
         {{ meeting().heureDebut }} - {{ meeting().heureFin }}
       </p>
     </div>
+    
 
     <!-- Action Buttons -->
     <div class="flex gap-2 pt-4">
