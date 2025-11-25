@@ -10,6 +10,8 @@ import { routes } from './app.routes';
 import {LayoutDashboard, Users,MessageSquare,Video,Bell,LogOut,Ticket, LayoutGrid,CalendarClock,Search,Plus,Calendar,
   ChartNoAxesGantt,LucideAngularModule,
   CalendarRange,
+  Clock4,
+  Info,
   } from 'lucide-angular';
 
 
@@ -34,7 +36,9 @@ export const appConfig: ApplicationConfig = {
         Search,
         Plus,
         Calendar,
-        CalendarRange
+        CalendarRange,
+        Clock4,
+        Info
       })
     ),
 
