@@ -57,24 +57,40 @@
 
       </div>
 
-      <!-- Upcoming Meetings Section -->
-      <div class="p-6 bg-gray-900 rounded-xl">
+      <!-- Upcoming Meetings Section with Split View -->
+      <div class="flex gap-4">
+        
+        <!-- Left: Meetings List (70% when details open, 100% when closed) -->
+        <div [class]="selectedMeeting ? 'w-[70%]' : 'w-full'" class="p-6 bg-gray-900 rounded-xl transition-all duration-300">
 
-        <div class="flex items-center justify-between mb-4">
-          <!-- Left: Heading + Paragraph -->
-          <div>
-            <h1 class="text-white text-xl font-semibold">Upcoming</h1>
-            <p class="text-gray-300">Your next scheduled meetings</p>
+          <div class="flex items-center justify-between mb-4">
+            <!-- Left: Heading + Paragraph -->
+            <div>
+              <h1 class="text-white text-xl font-semibold">Upcoming</h1>
+              <p class="text-gray-300">Your next scheduled meetings</p>
+            </div>
+
+            <!-- Right: Button -->
+            <button class="bg-gray-800 rounded-xl text-white p-2 flex items-center gap-1">
+              <lucide-angular name="Clock4" class="w-5 h-5" />
+              Next 7 days
+            </button>
           </div>
 
-          <!-- Right: Button -->
-          <button class="bg-gray-800 rounded-xl text-white p-2 flex items-center gap-1">
-            <lucide-angular name="Clock4" class="w-5 h-5" />
-            Next 7 days
-          </button>
+          <app-upcoming-meetings [selectedMeeting]="selectedMeeting"
+  (onMeetingSelect)="onMeetingSelected($event)"></app-upcoming-meetings>
+
         </div>
 
-        <app-upcoming-meetings></app-upcoming-meetings>
+        <!-- Right: Meeting Details (30%) -->
+        @if (selectedMeeting) {
+          <div class="w-[30%] transition-all duration-300">
+            <app-upcoming-details
+              [meeting]="selectedMeeting" 
+              (onClose)="closeDetails()"
+            />
+          </div>
+        }
 
       </div>
 

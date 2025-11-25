@@ -12,6 +12,9 @@ import {LayoutDashboard, Users,MessageSquare,Video,Bell,LogOut,Ticket, LayoutGri
   CalendarRange,
   Clock4,
   Info,
+  Trash2,
+  X,
+  Pencil,
   } from 'lucide-angular';
 
 
@@ -38,7 +41,10 @@ export const appConfig: ApplicationConfig = {
         Calendar,
         CalendarRange,
         Clock4,
-        Info
+        Info,
+        Trash2,
+        X,
+        Pencil
       })
     ),
 
