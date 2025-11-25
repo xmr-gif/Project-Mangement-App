@@ -15,6 +15,7 @@ import {LayoutDashboard, Users,MessageSquare,Video,Bell,LogOut,Ticket, LayoutGri
   Trash2,
   X,
   Pencil,
+  Check,
   } from 'lucide-angular';
 
 
@@ -44,7 +45,8 @@ export const appConfig: ApplicationConfig = {
         Info,
         Trash2,
         X,
-        Pencil
+        Pencil,
+        Check
       })
     ),
 

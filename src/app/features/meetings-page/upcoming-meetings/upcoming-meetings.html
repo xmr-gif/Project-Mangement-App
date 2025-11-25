@@ -7,7 +7,7 @@
   @for (meeting of meetings; track meeting) {
     <div 
       [class]="isSelected(meeting) 
-        ? 'bg-blue-900 border-blue-600' 
+        ? 'bg-blue-800 border-blue-600' 
         : 'bg-gray-800 border-gray-700'"
       class="p-4 rounded-xl flex justify-between items-center border transition-all duration-200 cursor-pointer hover:border-blue-700">
 
@@ -32,8 +32,8 @@
       <button 
         (click)="selectMeeting(meeting)"
         [class]="isSelected(meeting)
-          ? 'bg-blue-700 hover:bg-blue-600'
-          : 'bg-blue-700 hover:bg-blue-600'"
+          ? 'bg-blue-800 hover:bg-blue-600'
+          : 'bg-blue-800 hover:bg-blue-600'"
         class="rounded-lg px-3 py-1 text-sm text-white flex items-center gap-1 transition-colors"
       >
         <lucide-angular name="Info" class="w-4 h-4"></lucide-angular>

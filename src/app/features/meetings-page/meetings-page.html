@@ -50,7 +50,10 @@
         </div>
 
         <!-- Right: Schedule Meeting Button -->
-        <button class="bg-blue-800 border-blue-800 rounded-xl text-white p-2 flex items-center gap-1">
+        <button 
+          (click)="openScheduleModal()"
+          class="bg-blue-800 hover:bg-blue-700 border-blue-800 rounded-xl text-white p-2 flex items-center gap-1 transition-colors"
+        >
           <lucide-angular name="Plus" class="w-5 h-5" />
           Schedule Meeting
         </button>
@@ -71,14 +74,16 @@
             </div>
 
             <!-- Right: Button -->
-            <button class="bg-gray-800 rounded-xl text-white p-2 flex items-center gap-1">
+            <div class="bg-gray-800 rounded-xl text-white p-2 flex items-center gap-1">
               <lucide-angular name="Clock4" class="w-5 h-5" />
               Next 7 days
-            </button>
+            </div>
           </div>
 
-          <app-upcoming-meetings [selectedMeeting]="selectedMeeting"
-  (onMeetingSelect)="onMeetingSelected($event)"></app-upcoming-meetings>
+          <app-upcoming-meetings 
+            [selectedMeeting]="selectedMeeting"
+            (onMeetingSelect)="onMeetingSelected($event)"
+          ></app-upcoming-meetings>
 
         </div>
 
@@ -99,3 +104,11 @@
   </div>
 
 </div>
+
+<!-- Schedule Meeting Modal -->
+@if (showScheduleModal) {
+  <app-schedule-meeting-modal 
+    (onClose)="closeScheduleModal()"
+    (onSave)="onMeetingScheduled($event)"
+  />
+}

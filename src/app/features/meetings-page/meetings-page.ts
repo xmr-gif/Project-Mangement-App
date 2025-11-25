@@ -5,6 +5,7 @@ import { LucideAngularModule } from "lucide-angular";
 import { UpcomingMeetings } from './upcoming-meetings/upcoming-meetings';
 import { UpcomingDetails } from './upcoming-details/upcoming-details';
 import { Meeting } from './models/meetings.model';
+import { ScheduleMeetingModalComponent } from "./schedule-meeting/schedule-meeting";
 
 @Component({
   selector: 'app-meetings-page',
@@ -13,13 +14,15 @@ import { Meeting } from './models/meetings.model';
     Sidebar,
     LucideAngularModule,
     UpcomingMeetings,
-    UpcomingDetails
+    UpcomingDetails,
+    ScheduleMeetingModalComponent
 ],
   templateUrl: './meetings-page.html',
   styleUrl: './meetings-page.css',
 })
 export class MeetingsPage {
   selectedMeeting: Meeting | null = null;
+  showScheduleModal: boolean | undefined;
   
 
   onMeetingSelected(meeting: Meeting) {
@@ -28,5 +31,18 @@ export class MeetingsPage {
 
    closeDetails() {
     this.selectedMeeting = null;
+  }
+  openScheduleModal() {
+    this.showScheduleModal = true;
+  }
+
+  closeScheduleModal() {
+    this.showScheduleModal = false;
+  }
+
+  onMeetingScheduled(meeting: Meeting) {
+    console.log('New meeting scheduled:', meeting);
+    // Here you can add logic to save the meeting to your backend or state
+    this.showScheduleModal = false;
   }
 }
