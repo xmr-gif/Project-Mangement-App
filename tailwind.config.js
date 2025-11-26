@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{html,ts}",
+    "./src/**/*.{html,ts,css,scss}",
   ],
   theme: {
     extend: {
@@ -10,9 +10,7 @@ module.exports = {
         cardBorder: "#1C1F25",
         cardText: "#9FB3C8",
         cardNumber: "#E3F5FF",
-
       },
-
       fontFamily: {
         sans: ["Space Grotesk", "sans-serif"],
       },
@@ -23,4 +21,3 @@ module.exports = {
   },
   plugins: [],
 }
-
