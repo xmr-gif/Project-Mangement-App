@@ -1,0 +1,21 @@
+<div class="min-h-screen bg-gray-950 p-6">
+  <div class="max-w-[1600px] mx-auto">
+    <h1 class="text-white text-3xl font-bold mb-6">Tickets</h1>
+
+    <!-- Single unified container for toolbar + board -->
+    <div class="bg-gray-900 rounded-xl p-6">
+      <!-- Toolbar -->
+      <app-tickets-toolbar
+        [(searchQuery)]="searchQuery"
+        (newTicketClicked)="onNewTicket()"
+        (filterClicked)="onFilter()"
+        (sortClicked)="onSort()"
+        (assigneeClicked)="onAssignee()"
+        (priorityClicked)="onPriority()"
+      />
+
+      <!-- Board -->
+      <app-tickets-board [tickets]="filteredTickets()" />
+    </div>
+  </div>
+</div>
