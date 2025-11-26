@@ -1,0 +1,21 @@
+<div class="flex h-screen w-screen bg-gray-800">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-900">
+    <app-sidebar></app-sidebar>
+  </aside>
+
+  <!-- Right side -->
+  <div class="flex flex-col flex-1 overflow-hidden">
+
+    <!-- Navbar -->
+    <div class="w-full flex-shrink-0">
+      <app-navbar></app-navbar>
+    </div>
+
+    <!-- Main content -->
+    <main class="flex-1 p-4 overflow-y-auto">
+      <app-notifications-header></app-notifications-header>
+    </main>
+  </div>
+</div>
