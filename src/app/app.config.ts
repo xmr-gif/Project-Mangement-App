@@ -16,7 +16,7 @@ import {
   Trash2,
   X,
   Pencil,
-  Check, CircleCheckBig,
+  Check, CircleCheckBig, Filter,
 } from 'lucide-angular';
 
 
@@ -49,6 +49,7 @@ export const appConfig: ApplicationConfig = {
         Pencil,
         Check,
         CircleCheckBig,
+        Filter,
       })
     ),
 
