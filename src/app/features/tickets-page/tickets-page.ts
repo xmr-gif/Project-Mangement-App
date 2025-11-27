@@ -2,10 +2,12 @@ import { Component, signal } from '@angular/core';
 import { TicketsBoard } from '../tickets/components/tickets-board/tickets-board';
 import { TicketsToolbar } from '../tickets-page/tickets-toolbar/tickets-toolbar';
 import { Ticket } from '../tickets/models/ticket.model';
+import {NavbarComponent} from '../../shared/navbar/navbar';
+import {Sidebar} from '../../shared/sidebar/sidebar';
 
 @Component({
   selector: 'app-tickets-page',
-  imports: [TicketsBoard, TicketsToolbar],
+  imports: [TicketsBoard, TicketsToolbar, NavbarComponent, Sidebar],
   templateUrl: './tickets-page.html',
   styleUrl: './tickets-page.css',
 })
