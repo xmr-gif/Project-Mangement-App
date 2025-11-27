@@ -1,9 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { TicketsBoard } from '../tickets/components/tickets-board/tickets-board';
 import { TicketsToolbar } from '../tickets-page/tickets-toolbar/tickets-toolbar';
 import { Ticket } from '../tickets/models/ticket.model';
-import {NavbarComponent} from '../../shared/navbar/navbar';
-import {Sidebar} from '../../shared/sidebar/sidebar';
+import { NavbarComponent } from '../../shared/navbar/navbar';
+import { Sidebar } from '../../shared/sidebar/sidebar';
 
 @Component({
   selector: 'app-tickets-page',
@@ -12,9 +12,11 @@ import {Sidebar} from '../../shared/sidebar/sidebar';
   styleUrl: './tickets-page.css',
 })
 export class TicketsPage {
-  searchQuery = '';
+  // ✅ Use signal for searchQuery
+  searchQuery = signal('');
 
-  originalTickets: Ticket[] = [
+  // ✅ Original tickets as signal
+  allTickets = signal<Ticket[]>([
     {
       id: '1',
       title: 'Setup staging environment',
@@ -58,25 +60,23 @@ export class TicketsPage {
       assignees: ['https://i.pravatar.cc/150?img=7']
     },
     {
-      id: 'stringhere',
+      id: '7',
       title: 'Refactor orders module',
       status: 'happyday',
       priority: 'Medium',
-      assignees: ['https://i.pravatar.cc/150?img=7']
+      assignees: ['https://i.pravatar.cc/150?img=8']
     }
-  ];
+  ]);
 
-  search = signal('');
-  filteredTickets = signal<Ticket[]>(this.originalTickets);
+  // ✅ Computed filtered tickets
+  filteredTickets = computed(() => {
+    const query = this.searchQuery().toLowerCase().trim();
+    if (!query) return this.allTickets();
 
-  onSearch(value: string) {
-    this.search.set(value);
-    this.filteredTickets.set(
-      this.originalTickets.filter(t =>
-        t.title.toLowerCase().includes(value.toLowerCase())
-      )
+    return this.allTickets().filter(ticket =>
+      ticket.title.toLowerCase().includes(query)
     );
-  }
+  });
 
   onNewTicket() {
     console.log('Create new ticket');
