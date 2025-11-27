@@ -5,6 +5,7 @@ import {Overview} from './overview/overview';
 import {NavbarComponent} from '../../shared/navbar/navbar';
 import {MeetingsComponent} from './meetings/meetings';
 import {RecentDiscussionsComponent} from './recent-disscussions/recent-disscussions';
+import {Tickets} from './../tickets/tickets';
 
 
 @Component({
@@ -15,11 +16,14 @@ import {RecentDiscussionsComponent} from './recent-disscussions/recent-disscussi
     Overview,
     NavbarComponent,
     MeetingsComponent,
-    RecentDiscussionsComponent
+    RecentDiscussionsComponent,
+    Tickets
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
 export class Dashboard {
-
+  protected filteredTickets() {
+    return [];
+  }
 }

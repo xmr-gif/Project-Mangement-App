@@ -1,92 +1,83 @@
-import { Component, signal, computed  } from '@angular/core';
-import {Sidebar} from '../../shared/sidebar/sidebar';
-import {TicketsBoard} from '../tickets/components/tickets-board/tickets-board';
+import { Component, signal } from '@angular/core';
+import { TicketsBoard } from '../tickets/components/tickets-board/tickets-board';
+import { TicketsToolbar } from '../tickets-page/tickets-toolbar/tickets-toolbar';
 import { Ticket } from '../tickets/models/ticket.model';
-import {TicketsToolbar} from './tickets-toolbar/tickets-toolbar';
-
 
 @Component({
   selector: 'app-tickets-page',
-  imports: [
-    Sidebar,
-    TicketsBoard,
-    TicketsToolbar
-  ],
+  imports: [TicketsBoard, TicketsToolbar],
   templateUrl: './tickets-page.html',
   styleUrl: './tickets-page.css',
 })
 export class TicketsPage {
-  searchQuery = signal('');
+  searchQuery = '';
 
-  // Mock data with your simpler model
-  allTickets = signal<Ticket[]>([
+  originalTickets: Ticket[] = [
     {
       id: '1',
       title: 'Setup staging environment',
       status: 'todo',
       priority: 'Medium',
-      assignees: [
-        'https://i.pravatar.cc/150?img=1',
-        'https://i.pravatar.cc/150?img=2'
-      ]
+      assignees: ['https://i.pravatar.cc/150?img=1', 'https://i.pravatar.cc/150?img=2']
     },
     {
       id: '2',
-      title: 'Design onboarding flow',
-      status: 'todo',
+      title: 'API rate limiting',
+      status: 'doing',
       priority: 'High',
       assignees: ['https://i.pravatar.cc/150?img=3']
     },
     {
       id: '3',
-      title: 'API rate limiting',
-      status: 'doing',
+      title: 'Design onboarding flow',
+      status: 'todo',
       priority: 'High',
       assignees: ['https://i.pravatar.cc/150?img=4']
     },
     {
       id: '4',
-      title: 'Refactor auth module',
-      status: 'doing',
-      priority: 'Medium',
-      assignees: ['https://i.pravatar.cc/150?img=5']
-    },
-    {
-      id: '5',
       title: 'Integrate SSO',
       status: 'done',
       priority: 'Low',
+      assignees: ['https://i.pravatar.cc/150?img=1']
+    },
+    {
+      id: '5',
+      title: 'Release v1.2.0',
+      status: 'done',
+      priority: 'Medium',
       assignees: ['https://i.pravatar.cc/150?img=6']
     },
     {
       id: '6',
-      title: 'Release v1.2.0',
-      status: 'done',
+      title: 'Refactor auth module',
+      status: 'doing',
       priority: 'Medium',
       assignees: ['https://i.pravatar.cc/150?img=7']
     },
     {
-      id: '7',
-      title: 'Add SSO via SAML',
+      id: 'stringhere',
+      title: 'Refactor orders module',
       status: 'happyday',
       priority: 'Medium',
-      assignees: ['https://i.pravatar.cc/150?img=8']
+      assignees: ['https://i.pravatar.cc/150?img=7']
     }
-  ]);
+  ];
 
-  // Filtered tickets based on search
-  filteredTickets = computed(() => {
-    const query = this.searchQuery().toLowerCase().trim();
-    if (!query) return this.allTickets();
+  search = signal('');
+  filteredTickets = signal<Ticket[]>(this.originalTickets);
 
-    return this.allTickets().filter(ticket =>
-      ticket.title.toLowerCase().includes(query)
+  onSearch(value: string) {
+    this.search.set(value);
+    this.filteredTickets.set(
+      this.originalTickets.filter(t =>
+        t.title.toLowerCase().includes(value.toLowerCase())
+      )
     );
-  });
+  }
 
-  // Event handlers
   onNewTicket() {
-    console.log('New ticket clicked');
+    console.log('Create new ticket');
   }
 
   onFilter() {
@@ -104,5 +95,4 @@ export class TicketsPage {
   onPriority() {
     console.log('Priority filter clicked');
   }
-
 }

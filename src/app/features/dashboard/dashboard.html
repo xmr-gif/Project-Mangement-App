@@ -19,7 +19,7 @@
       <app-overview class="lg:col-span-3"></app-overview>
 
       <!-- Tickets taking ALL vertical space on the left -->
-      <app-tickets-board
+      <app-tickets-board [tickets]="filteredTickets()"
         class="lg:col-span-2 h-full  self-stretch">
       </app-tickets-board>
 

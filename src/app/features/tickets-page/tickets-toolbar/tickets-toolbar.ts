@@ -9,11 +9,9 @@ import { Component, output, model } from '@angular/core';
 export class TicketsToolbar {
   searchQuery = model<string>('');
 
-  // Events
   filterClicked = output<void>();
   sortClicked = output<void>();
   assigneeClicked = output<void>();
   priorityClicked = output<void>();
   newTicketClicked = output<void>();
-
 }
