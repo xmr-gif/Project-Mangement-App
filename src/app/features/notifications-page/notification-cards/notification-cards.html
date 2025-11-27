@@ -1,1 +1,71 @@
-<p>notification-cards works!</p>
+<div class="space-y-3 overflow-y-auto pr-2 h-full
+            [&::-webkit-scrollbar]:w-2
+            [&::-webkit-scrollbar-track]:bg-gray-800
+            [&::-webkit-scrollbar-thumb]:bg-gray-700
+            [&::-webkit-scrollbar-thumb]:rounded-md">
+  @for (notification of notifications; track notification.id) {
+
+    @if (shouldShowSection($index)) {
+      <div class="text-gray-400 text-sm font-medium mb-3 mt-6">
+        {{ getTimeSection(notification) }}
+      </div>
+    }
+
+    <div
+      (click)="onNotificationClick(notification)"
+      class="flex items-start gap-4 p-4 rounded-lg transition-colors cursor-pointer"
+      [class.bg-gray-800]="isUnread(notification)"
+      [class.hover:bg-gray-700]="isUnread(notification)"
+      [class.hover:bg-gray-800]="!isUnread(notification)">
+
+      @if (isUnread(notification)) {
+        <div class="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+      }
+
+      <lucide-angular
+        class="w-5 h-5 text-gray-400 mt-1"
+        [name]="getIcon(notification.type)"
+      />
+
+      <div class="flex-1 min-w-0">
+        <h3 class="text-white font-medium mb-1">{{ notification.title }}</h3>
+
+        @if (notification.description) {
+          <p class="text-gray-400 text-sm mb-2">
+            {{ notification.description }}
+          </p>
+        }
+
+        <div class="flex items-center gap-2 flex-wrap">
+          @for (tag of notification.tags; track tag.label) {
+            <span
+              class="px-2 py-1 text-xs rounded"
+              [ngClass]="getTagColorClasses(tag.color)">
+              {{ tag.label }}
+            </span>
+          }
+
+          @if (notification.action) {
+            <button
+              (click)="onActionClick(notification, $event)"
+              class="text-blue-400 hover:text-blue-300 text-sm transition-colors">
+              {{ notification.action.text }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="text-gray-400 text-sm">
+        {{ notification.formattedDate || formatDate(notification.date) }}
+      </div>
+    </div>
+  }
+
+  @if (notifications.length === 0) {
+    <div class="text-center py-12">
+      <lucide-angular name="Inbox" class="w-12 h-12 text-gray-600 mx-auto mb-4" />
+      <h3 class="text-gray-400 text-lg font-medium mb-2">No notifications</h3>
+      <p class="text-gray-500 text-sm">You're all caught up!</p>
+    </div>
+  }
+</div>
