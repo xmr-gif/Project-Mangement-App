@@ -12,10 +12,8 @@ import { Sidebar } from '../../shared/sidebar/sidebar';
   styleUrl: './tickets-page.css',
 })
 export class TicketsPage {
-  // ✅ Use signal for searchQuery
   searchQuery = signal('');
 
-  // ✅ Original tickets as signal
   allTickets = signal<Ticket[]>([
     {
       id: '1',
@@ -68,7 +66,6 @@ export class TicketsPage {
     }
   ]);
 
-  // ✅ Computed filtered tickets
   filteredTickets = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
     if (!query) return this.allTickets();
@@ -77,6 +74,18 @@ export class TicketsPage {
       ticket.title.toLowerCase().includes(query)
     );
   });
+
+  // Handle ticket moved between columns
+  onTicketMoved(event: { ticket: Ticket; newStatus: string }) {
+    this.allTickets.update(tickets =>
+      tickets.map(t =>
+        t.id === event.ticket.id
+          ? { ...t, status: event.newStatus }
+          : t
+      )
+    );
+    console.log(`✅ Ticket "${event.ticket.title}" moved to ${event.newStatus}`);
+  }
 
   onNewTicket() {
     console.log('Create new ticket');

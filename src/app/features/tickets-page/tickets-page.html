@@ -39,6 +39,7 @@
         <div class="flex-1 mt-4">
           <app-tickets-board
             [tickets]="filteredTickets()"
+            (ticketMoved)="onTicketMoved($event)"
             class="h-full"
           >
           </app-tickets-board>

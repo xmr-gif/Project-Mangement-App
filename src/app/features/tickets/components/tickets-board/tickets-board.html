@@ -1,9 +1,14 @@
 <div class="bg-gray-900 rounded-xl p-6 flex flex-col gap-6 w-full">
-  <!-- Grid of tickets -->
   <div class="grid grid-cols-4 gap-3">
 
     <!-- To Do Column -->
-    <div class="flex flex-col border-dashed border-2 border-gray-700 p-2 rounded-md">
+    <div
+      cdkDropList
+      id="todoList"
+      [cdkDropListData]="todoTickets()"
+      [cdkDropListConnectedTo]="['doingList', 'doneList', 'happydayList']"
+      (cdkDropListDropped)="onDrop($event, 'todo')"
+      class="flex flex-col border-dashed border-2 border-gray-700 p-2 rounded-md min-h-[400px]">
       <div class="flex items-center justify-between mb-3">
         <h3 class="text-gray-400 text-sm">To Do</h3>
         <span class="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded-full">
@@ -12,13 +17,21 @@
       </div>
       <div class="space-y-2">
         @for (ticket of todoTickets(); track ticket.id) {
-          <app-ticket-card [ticket]="ticket"></app-ticket-card>
+          <div cdkDrag [cdkDragData]="ticket">
+            <app-ticket-card [ticket]="ticket"></app-ticket-card>
+          </div>
         }
       </div>
     </div>
 
     <!-- Doing Column -->
-    <div class="flex flex-col border-dashed border-2 border-gray-700 p-2 rounded-md">
+    <div
+      cdkDropList
+      id="doingList"
+      [cdkDropListData]="doingTickets()"
+      [cdkDropListConnectedTo]="['todoList', 'doneList', 'happydayList']"
+      (cdkDropListDropped)="onDrop($event, 'doing')"
+      class="flex flex-col border-dashed border-2 border-gray-700 p-2 rounded-md min-h-[400px]">
       <div class="flex items-center justify-between mb-3">
         <h3 class="text-gray-400 text-sm">Doing</h3>
         <span class="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded-full">
@@ -27,13 +40,21 @@
       </div>
       <div class="space-y-2">
         @for (ticket of doingTickets(); track ticket.id) {
-          <app-ticket-card [ticket]="ticket"></app-ticket-card>
+          <div cdkDrag [cdkDragData]="ticket">
+            <app-ticket-card [ticket]="ticket"></app-ticket-card>
+          </div>
         }
       </div>
     </div>
 
     <!-- Done Column -->
-    <div class="flex flex-col border-dashed border-2 border-gray-700 p-2 rounded-md">
+    <div
+      cdkDropList
+      id="doneList"
+      [cdkDropListData]="doneTickets()"
+      [cdkDropListConnectedTo]="['todoList', 'doingList', 'happydayList']"
+      (cdkDropListDropped)="onDrop($event, 'done')"
+      class="flex flex-col border-dashed border-2 border-gray-700 p-2 rounded-md min-h-[400px]">
       <div class="flex items-center justify-between mb-3">
         <h3 class="text-gray-400 text-sm">Done</h3>
         <span class="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded-full">
@@ -42,13 +63,21 @@
       </div>
       <div class="space-y-2">
         @for (ticket of doneTickets(); track ticket.id) {
-          <app-ticket-card [ticket]="ticket"></app-ticket-card>
+          <div cdkDrag [cdkDragData]="ticket">
+            <app-ticket-card [ticket]="ticket"></app-ticket-card>
+          </div>
         }
       </div>
     </div>
 
     <!-- HappyDay Column -->
-    <div class="flex flex-col border-dashed border-2 border-gray-700 p-2 rounded-md">
+    <div
+      cdkDropList
+      id="happydayList"
+      [cdkDropListData]="happydayTickets()"
+      [cdkDropListConnectedTo]="['todoList', 'doingList', 'doneList']"
+      (cdkDropListDropped)="onDrop($event, 'happyday')"
+      class="flex flex-col border-dashed border-2 border-gray-700 p-2 rounded-md min-h-[400px]">
       <div class="flex items-center justify-between mb-3">
         <h3 class="text-gray-400 text-sm">HappyDay</h3>
         <span class="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded-full">
@@ -57,7 +86,9 @@
       </div>
       <div class="space-y-2">
         @for (ticket of happydayTickets(); track ticket.id) {
-          <app-ticket-card [ticket]="ticket"></app-ticket-card>
+          <div cdkDrag [cdkDragData]="ticket">
+            <app-ticket-card [ticket]="ticket"></app-ticket-card>
+          </div>
         }
       </div>
     </div>
