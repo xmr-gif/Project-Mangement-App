@@ -1,5 +1,4 @@
-<div class="space-y-4  h-full p-6 bg-gray-900 rounded-xl">
-
+<div class="space-y-4 h-full p-6 bg-gray-900 rounded-xl">
 
   <!-- Stats Grid -->
   <div class="grid grid-cols-2 gap-3">
@@ -10,7 +9,11 @@
             <p class="text-sm opacity-75">{{ stat.label }}</p>
             <p class="text-3xl font-bold mt-1">{{ stat.value }}</p>
           </div>
-          <lucide-angular [name]="stat.icon.name || 'Bell'" class="w-8 h-8 opacity-50"></lucide-angular>
+
+          <lucide-angular 
+            [name]="stat.icon" 
+            class="w-8 h-8 opacity-50">
+          </lucide-angular>
         </div>
       </div>
     }
