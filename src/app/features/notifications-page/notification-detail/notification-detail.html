@@ -1,9 +1,9 @@
 <div class="bg-gray-900 rounded-xl p-6 h-full flex flex-col">
-  
+
   <!-- Header with close button -->
   <div class="flex items-center justify-between mb-6">
     <h2 class="text-white text-xl font-semibold">Notification Details</h2>
-    <button 
+    <button
       (click)="close()"
       class="text-gray-400 hover:text-white transition-colors"
     >
@@ -17,11 +17,12 @@
               [&::-webkit-scrollbar-track]:bg-gray-800
               [&::-webkit-scrollbar-thumb]:bg-gray-700
               [&::-webkit-scrollbar-thumb]:rounded-md">
-    
-    <!-- Status Badge -->
-    <div *ngIf="notification">
+
+    @if (notification()) {
+
+      <!-- Status Badge -->
       <div class="flex items-center gap-2">
-        <span 
+        <span
           class="px-3 py-1 text-xs rounded-full font-medium"
           [class.bg-blue-900]="notification().status === 'unread'"
           [class.text-blue-200]="notification().status === 'unread'"
@@ -30,7 +31,8 @@
         >
           {{ notification().status | titlecase }}
         </span>
-        <span 
+
+        <span
           class="px-3 py-1 text-xs rounded-full font-medium"
           [class.bg-red-900]="notification().priority === 'high'"
           [class.text-red-200]="notification().priority === 'high'"
@@ -52,12 +54,14 @@
       </div>
 
       <!-- Description -->
-      <div *ngIf="notification().description">
-        <label class="text-gray-400 text-sm">Description</label>
-        <p class="text-gray-300 text-sm mt-1 leading-relaxed">
-          {{ notification().description }}
-        </p>
-      </div>
+      @if (notification().description) {
+        <div>
+          <label class="text-gray-400 text-sm">Description</label>
+          <p class="text-gray-300 text-sm mt-1 leading-relaxed">
+            {{ notification().description }}
+          </p>
+        </div>
+      }
 
       <!-- Date & Time -->
       <div class="grid grid-cols-2 gap-4">
@@ -81,44 +85,38 @@
         </div>
       </div>
 
-      <!-- Tags -->
-      <div *ngIf="notification() as notif">
-        <div *ngIf="notif.tags && notif.tags.length > 0">
-          <label class="text-gray-400 text-sm">Tags</label>
-          <div class="flex flex-wrap gap-2 mt-2">
-            <span *ngFor="let tag of notif.tags"
-              class="px-3 py-1 text-xs rounded-full"
-              [ngClass]="getTagColorClasses(tag.color)">
-              {{ tag.label }}
-            </span>
-          </div>
-        </div>
+      <!-- Tags + Action -->
+      @if (notification()) {
+        @let notif = notification();
 
-        <!-- Action Button -->
-        <div *ngIf="notif.action">
-          <p class="text-gray-400 text-sm mb-2">Suggested Action</p>
-          <button 
-            class="w-full bg-blue-700 hover:bg-blue-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 transition-colors"
-          >
-            <lucide-angular name="ExternalLink" class="w-4 h-4"></lucide-angular>
-            {{ notif.action.text }}
-          </button>
-        </div>
-      </div>
-    </div>
+        @if (notif.action) {
+          <div>
+            <p class="text-gray-400 text-sm mb-2">Suggested Action</p>
+            <button
+              class="w-full bg-blue-700 hover:bg-blue-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 transition-colors"
+            >
+              <lucide-angular name="ExternalLink" class="w-4 h-4"></lucide-angular>
+              {{ notif.action.text }}
+            </button>
+          </div>
+        }
+
+      }
+
+    }
 
   </div>
 
   <!-- Action Buttons -->
   <div class="flex gap-2 pt-4 border-t border-gray-800">
-    <button 
+    <button
       (click)="markAsRead()"
       class="flex-1 bg-gray-800 hover:bg-gray-700 text-white py-2 rounded-lg flex items-center justify-center gap-2 transition-colors"
     >
       <lucide-angular name="Check" class="w-4 h-4"></lucide-angular>
       Mark as Read
     </button>
-    <button 
+    <button
       (click)="close()"
       class="flex-1 bg-gray-800 hover:bg-gray-700 text-white py-2 rounded-lg flex items-center justify-center gap-2 transition-colors"
     >
@@ -126,5 +124,4 @@
       Close
     </button>
   </div>
-
 </div>

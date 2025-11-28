@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {LucideAngularModule} from "lucide-angular";
 import {NavbarComponent} from "../../shared/navbar/navbar";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -8,6 +8,7 @@ import {NotificationsInbox} from './notifications-inbox/notifications-inbox';
 import {NotificationDetail} from './notification-detail/notification-detail';
 import { Notification, NotificationStatus } from './Models/Notifications.model';
 import { CommonModule } from '@angular/common';
+import { NotificationService } from './services/notification.service';
 
 @Component({
   selector: 'app-notifications-page',
@@ -26,40 +27,55 @@ import { CommonModule } from '@angular/common';
   templateUrl: './notifications-page.html',
   styleUrl: './notifications-page.css',
 })
-export class NotificationsPage {
+export class NotificationsPage implements OnInit {
   currentFilter: 'All' | 'Mentions' | 'Tasks' | 'Meetings' = 'All';
   searchQuery: string = '';
   selectedNotification: Notification | null = null;
+  filteredNotifications: Notification[] = [];
+  isDetailOpen = false;
+
+  constructor(private notificationService: NotificationService) {}
+
+  ngOnInit() {
+    this.updateFilteredNotifications();
+    this.notificationService.notifications$.subscribe(() => {
+      this.updateFilteredNotifications();
+    });
+  }
+
+  private updateFilteredNotifications() {
+    this.filteredNotifications = this.notificationService.getFilteredAndSearchedNotifications(
+      this.currentFilter,
+      this.searchQuery
+    );
+  }
 
   onFilterChange(filter: 'All' | 'Mentions' | 'Tasks' | 'Meetings') {
     this.currentFilter = filter;
-    console.log('Filter changed to:', filter);
-    // Apply filter logic here
+    this.updateFilteredNotifications();
   }
 
   onSearchChange(query: string) {
     this.searchQuery = query;
-    console.log('Search query:', query);
-    // Apply search logic here
+    this.updateFilteredNotifications();
   }
 
   onMarkAllAsRead() {
-    console.log('Mark all as read clicked');
-    // Mark all notifications as read
+    this.notificationService.markAllAsRead();
   }
 
   onNotificationSelected(notification: Notification) {
     this.selectedNotification = notification;
-    console.log('Selected notification:', notification);
+    this.isDetailOpen = true;
   }
 
   closeNotificationDetail() {
+    this.isDetailOpen = false;
     this.selectedNotification = null;
   }
 
   onMarkNotificationAsRead(notification: Notification) {
-    notification.status = NotificationStatus.READ;
-    console.log('Marked as read:', notification);
+    this.notificationService.updateNotificationStatus(notification.id, NotificationStatus.READ);
     this.closeNotificationDetail();
   }
 }

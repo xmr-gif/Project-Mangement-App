@@ -15,23 +15,25 @@
 
     <!-- Main content -->
     <main class="flex-1 p-4 overflow-hidden flex flex-col">
-      <app-notifications-header 
+      <app-notifications-header
         (filterChange)="onFilterChange($event)"
         (searchChange)="onSearchChange($event)"
         (markAllAsRead)="onMarkAllAsRead()">
       </app-notifications-header>
       <div class="flex-1 min-h-0 mt-4 flex gap-4">
-        <!-- Notifications Inbox (70% or 100%) -->
-        <div [class.flex-1]="!selectedNotification" [class.w-2/3]="selectedNotification">
-          <app-notifications-inbox 
+        <!-- Notifications Inbox (70% when detail is open, 100% otherwise) -->
+        <div [class.w-7/10]="isDetailOpen" [class.flex-1]="!isDetailOpen" class="min-w-0">
+          <app-notifications-inbox
+            [notifications]="filteredNotifications"
+            [selectedNotificationId]="selectedNotification?.id || null"
             (notificationSelected)="onNotificationSelected($event)">
           </app-notifications-inbox>
         </div>
-        
+
         <!-- Notification Detail (30%) -->
-        @if (selectedNotification) {
-          <div class="w-1/3">
-            <app-notification-detail 
+        @if (isDetailOpen && selectedNotification) {
+          <div class="w-3/10 min-w-0">
+            <app-notification-detail
               [notification]="selectedNotification"
               (onClose)="closeNotificationDetail()"
               (onMarkAsRead)="onMarkNotificationAsRead($event)">
@@ -39,7 +41,9 @@
           </div>
         }
       </div>
-    </main>
-  </div>
 
+    </main>
+      </div>
 </div>
+
+

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, CalendarDays, CheckSquare, MessageCircle, Calendar, ListTodo, Bell } from 'lucide-angular';
 import {
@@ -8,6 +8,7 @@ import {
   TagColor,
   NotificationPriority
 } from '../Models/Notifications.model';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-notification-cards',
@@ -16,12 +17,25 @@ import {
   templateUrl: './notification-cards.html',
   styleUrls: ['./notification-cards.css']
 })
-export class NotificationCards {
+export class NotificationCards implements OnInit {
   @Output() notificationClick = new EventEmitter<Notification>();
   @Output() actionClick = new EventEmitter<Notification>();
+  @Input() notifications: Notification[] = [];
+  @Input() selectedNotificationId: string | null = null;
+  @ViewChild(NotificationCards) notificationCards!: NotificationCards;
+  selectedNotif: Notification | null = null;
+  constructor(private notificationService: NotificationService) {}
+
+  ngOnInit() {
+    this.notificationService.notifications$.subscribe(notifications => {
+      
+      this.notifications = notifications;
+      
+    });
+  }
 
   // Sample data - replace with real data later
-  notifications: Notification[] = [
+  defaultNotifications: Notification[] = [
     {
       id: '1',
       type: NotificationType.MEETING,
@@ -31,10 +45,7 @@ export class NotificationCards {
       formattedDate: '10:45',
       status: NotificationStatus.UNREAD,
       priority: NotificationPriority.HIGH,
-      tags: [
-        { label: 'Meeting', color: TagColor.BLUE },
-        { label: 'Core Platform', color: TagColor.BLUE }
-      ],
+
       action: { text: 'Open in Calendar' }
     },
     {
@@ -46,10 +57,7 @@ export class NotificationCards {
       formattedDate: '09:32',
       status: NotificationStatus.UNREAD,
       priority: NotificationPriority.MEDIUM,
-      tags: [
-        { label: 'Task', color: TagColor.GREEN },
-        { label: 'Backend', color: TagColor.GREEN }
-      ],
+
       action: { text: 'View task details' }
     },
     {
@@ -61,10 +69,7 @@ export class NotificationCards {
       formattedDate: '08:10',
       status: NotificationStatus.UNREAD,
       priority: NotificationPriority.MEDIUM,
-      tags: [
-        { label: 'Mention', color: TagColor.PURPLE },
-        { label: 'Onboarding', color: TagColor.PURPLE }
-      ],
+
       action: { text: 'Open discussion' }
     },
     {
@@ -76,10 +81,7 @@ export class NotificationCards {
       formattedDate: '07:45',
       status: NotificationStatus.READ,
       priority: NotificationPriority.MEDIUM,
-      tags: [
-        { label: 'Mention', color: TagColor.PURPLE },
-        { label: 'Design', color: TagColor.PURPLE }
-      ],
+
       action: { text: 'Open discussion' }
     },
     {
@@ -91,10 +93,7 @@ export class NotificationCards {
       formattedDate: '06:30',
       status: NotificationStatus.READ,
       priority: NotificationPriority.LOW,
-      tags: [
-        { label: 'Task', color: TagColor.GREEN },
-        { label: 'Documentation', color: TagColor.GREEN }
-      ],
+
       action: { text: 'View task' }
     }
   ];
@@ -176,11 +175,26 @@ export class NotificationCards {
   }
 
   onNotificationClick(notification: Notification): void {
+    this.selectedNotificationId = notification.id;
     this.notificationClick.emit(notification);
+  }
+
+  isSelected(notification: Notification): boolean {
+    return this.selectedNotificationId === notification.id;
   }
 
   onActionClick(notification: Notification, event: Event): void {
     event.stopPropagation();
     this.actionClick.emit(notification);
+    this.selectedNotif = notification;
+  }
+
+  clearSelection() {
+    this.selectedNotificationId = null;
+  }
+
+  onDetailClose() {
+    this.selectedNotif = null;
+    this.clearSelection();
   }
 }

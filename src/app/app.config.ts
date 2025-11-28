@@ -16,7 +16,7 @@ import {
   Trash2,
   X,
   Pencil,
-  Check, CircleCheckBig, Filter, CheckSquare, MessageCircle, Inbox
+  Check, CircleCheckBig, Filter, CheckSquare, MessageCircle, Inbox, ExternalLink
 } from 'lucide-angular';
 
 
@@ -53,6 +53,7 @@ export const appConfig: ApplicationConfig = {
         CheckSquare,
         MessageCircle,
         Inbox,
+        ExternalLink,
       })
     ),
 

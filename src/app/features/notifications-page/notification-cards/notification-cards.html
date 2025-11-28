@@ -13,10 +13,10 @@
 
     <div
       (click)="onNotificationClick(notification)"
-      class="flex items-start gap-4 p-4 rounded-lg transition-colors cursor-pointer"
-      [class.bg-gray-800]="isUnread(notification)"
-      [class.hover:bg-gray-700]="isUnread(notification)"
-      [class.hover:bg-gray-800]="!isUnread(notification)">
+      [class]="isSelected(notification) 
+        ? 'bg-blue-800 border-blue-600' 
+        : 'bg-gray-800 border-gray-700'"
+      class="flex items-start gap-4 p-4 rounded-lg border transition-all duration-200 cursor-pointer hover:border-blue-700">
 
       @if (isUnread(notification)) {
         <div class="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
@@ -36,14 +36,12 @@
           </p>
         }
 
-        <div class="flex items-center gap-2 flex-wrap">
-          @for (tag of notification.tags; track tag.label) {
-            <span
-              class="px-2 py-1 text-xs rounded"
-              [ngClass]="getTagColorClasses(tag.color)">
-              {{ tag.label }}
-            </span>
-          }
+
+
+
+        <div class="text-gray-400 text-sm">
+          {{ notification.formattedDate || formatDate(notification.date) }}
+        </div>
 
           @if (notification.action) {
             <button
@@ -55,10 +53,6 @@
         </div>
       </div>
 
-      <div class="text-gray-400 text-sm">
-        {{ notification.formattedDate || formatDate(notification.date) }}
-      </div>
-    </div>
   }
 
   @if (notifications.length === 0) {

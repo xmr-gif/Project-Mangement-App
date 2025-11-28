@@ -54,7 +54,6 @@ export interface Notification {
   description?: string;
   date: Date;
   formattedDate?: string; // e.g., "10:45", "Mon", "Last Fri"
-  tags?: NotificationTag[];
   action?: NotificationAction;
   status: NotificationStatus;
   priority?: NotificationPriority;

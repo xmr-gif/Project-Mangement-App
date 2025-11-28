@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input, ViewChild } from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
 import { NotificationCards } from '../notification-cards/notification-cards';
 import { CommonModule } from '@angular/common';
@@ -18,6 +18,10 @@ import { Notification } from '../Models/Notifications.model';
 })
 export class NotificationsInbox {
   @Output() notificationSelected = new EventEmitter<Notification>();
+  @Input() notifications: Notification[] = [];
+  @Input() selectedNotificationId: string | null = null;
+  @ViewChild(NotificationCards) notificationCards!: NotificationCards;
+  selectedNotif: Notification | null = null;
   activeFilter: 'All' | 'Mentions' | 'Tasks' | 'Meetings' = 'All';
 
   onFilterButtonClick() {
@@ -27,5 +31,10 @@ export class NotificationsInbox {
 
   onNotificationClick(notification: Notification) {
     this.notificationSelected.emit(notification);
+    this.selectedNotif = notification;
   }
+  onDetailClose() {
+  this.selectedNotif = null;
+  this.notificationCards.clearSelection();  // 🟦 remove highlight
+}
 }

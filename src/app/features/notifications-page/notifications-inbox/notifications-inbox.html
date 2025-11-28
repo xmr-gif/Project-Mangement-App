@@ -20,7 +20,12 @@
     <!-- Notification Cards with Scrollbar -->
     <div class="flex-1 overflow-y-auto pr-2">
       <app-notification-cards 
-        (notificationClick)="onNotificationClick($event)">
+        [notifications]="notifications"
+        [selectedNotificationId]="selectedNotificationId"
+        (notificationClick)="onNotificationClick($event)"
+        (onClose)="onDetailClose()"
+         >
+         
       </app-notification-cards>
     </div>
   </div>
