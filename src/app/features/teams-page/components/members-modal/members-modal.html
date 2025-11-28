@@ -1,0 +1,53 @@
+@if (isOpen) {
+  <div 
+    class="modal-backdrop fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+    (click)="onBackdropClick($event)"
+  >
+    <div class="bg-[#1a1d29] rounded-xl border border-[#2d3142] w-full max-w-2xl max-h-[80vh] flex flex-col shadow-2xl">
+      
+      <div class="flex items-center justify-between p-6 border-b border-[#2d3142]">
+        <div>
+          <h2 class="text-xl font-semibold text-white m-0">{{ teamName }}</h2>
+          <p class="text-sm text-[#94a3b8] mt-1">{{ members.length }} members</p>
+        </div>
+        <button 
+          (click)="onClose()"
+          class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#2d3142] transition-colors text-[#94a3b8] hover:text-white"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- list d les membres -->
+      <div class="overflow-y-auto flex-1 p-6">
+        <div class="grid gap-3">
+          @for (member of members; track member.id) {
+            <div class="flex items-center gap-4 p-4 rounded-lg bg-[#0f1117] border border-[#2d3142] hover:border-[#4a5568] transition-all">
+              <img 
+                [src]="member.avatar" 
+                [alt]="member.name"
+                class="w-12 h-12 rounded-full object-cover border-2 border-[#2d3142]"
+              />
+              <div class="flex-1">
+                <h3 class="text-white font-medium text-base m-0">{{ member.name }}</h3>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+
+      <div class="p-6 border-t border-[#2d3142] flex justify-end">
+        <button 
+          (click)="onClose()"
+          class="px-4 py-2 bg-[#2d3142] text-white rounded-lg hover:bg-[#3d4152] transition-colors font-medium"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+}

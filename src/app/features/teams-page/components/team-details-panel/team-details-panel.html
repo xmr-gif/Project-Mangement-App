@@ -1,0 +1,49 @@
+<div class="bg-gray-900 border-l border-[#2d3142] flex flex-col h-[calc(100vh-65px)] fixed right-0 top-[65px] bottom-0 w-[400px] overflow-y-auto animate-in slide-in-from-right duration-500">
+
+
+  <div class="p-6 border-b border-[#2d3142] flex items-center justify-between flex-shrink-0">
+    <h2 class="text-xl font-semibold text-white">{{ team.name }}</h2>
+    <button 
+      (click)="onClose()"
+      class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#2d3142] transition-colors text-[#94a3b8] hover:text-white"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+
+  <div class="p-6 flex-shrink-0">
+    <div class="flex items-center gap-2 text-[#94a3b8] text-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+      <span>{{ team.memberCount }} members</span>
+    </div>
+  </div>
+
+  
+  <div class="flex-1 p-6 bg-gray-900 overflow-y-auto">
+    <h3 class="text-white font-semibold mb-4 text-lg">Team Members</h3>
+    <div class="space-y-3">
+      @for (member of team.members; track member.id) {
+        <div class="flex items-center gap-3 p-3 rounded-lg bg- hover:border-[#4a5568] transition-all w-full">
+          <img 
+            [src]="member.avatar" 
+            [alt]="member.name"
+            class="w-10 h-10 rounded-full object-cover border-2 border-[#2d3142]"
+          />
+          <div class="flex-1">
+            <h4 class="text-white font-medium text-sm">{{ member.name }}</h4>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+</div>
