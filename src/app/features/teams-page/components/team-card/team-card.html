@@ -1,0 +1,57 @@
+<div 
+  class="bg-gray-800 border rounded-xl p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg flex flex-col gap-3"
+  [class.border-[#3b82f6]]="isSelected"
+  [class.shadow-lg]="isSelected"
+  [class.shadow-[#3b82f6]/20]="isSelected"
+  [class.border-gray-700]="!isSelected"
+  [class.hover:border-gray-600]="!isSelected"
+>
+  
+  <!-- Header -->
+  <div class="flex items-center justify-between gap-3">
+    <h3 class="text-white text-base font-semibold m-0">{{ team.name }}</h3>
+    <div class="bg-gray-900 text-[#94a3b8] text-xs font-medium px-2 py-0.5 rounded-sm inline-flex items-center w-auto max-w-max">
+      {{ team.memberCount }} members
+    </div>
+  </div>
+
+  <!-- Avatars des members -->
+  <div class="py-3">
+    <div class="flex items-center">
+      @for (member of visibleMembers; track member.id; let i = $index) {
+        <img 
+          [src]="member.avatar" 
+          [alt]="member.name"
+          [title]="member.name"
+          class="w-9 h-9 rounded-full border-2 border-gray-800 object-cover transition-transform duration-200 hover:scale-105 hover:z-10"
+          [class.-ml-1]="i > 0"
+        />
+      }
+      @if (remainingCount > 0) {
+        <div class="w-9 h-9 rounded-full bg-gray-700 border-2 border-gray-800 flex items-center justify-center text-[#94a3b8] text-xs font-semibold -ml-1">
+          +{{ remainingCount }}
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="border-t border-gray-700 pt-3 flex items-center justify-between">
+    <span class="text-[#64748b] text-xs">Created {{ formatDate(team.createdAt) }}</span>
+    <button 
+      (click)="onViewMembers()"
+      class="flex items-center gap-2 bg-transparent border-none text-sm font-medium cursor-pointer p-0 transition-colors duration-200"
+      [class.text-[#3b82f6]]="!isSelected"
+      [class.hover.text-[#60a5fa]]="!isSelected"
+      [class.text-[#60a5fa]]="isSelected"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+      View members
+    </button>
+  </div>
+</div>

@@ -1,1 +1,286 @@
-<p>teams-page works!</p>
+<div class="flex h-screen">
+  
+  <app-sidebar class="h-full"></app-sidebar>
+
+  <div class="flex-1 flex flex-col overflow-hidden">
+    <app-navbar></app-navbar>
+    
+    <!-- page content avec layout master-detail -->
+    <div class="flex-1 bg-gray-800 flex overflow-y-auto border-l border-[#2d3142]">
+      
+      <!-- section all teams (à gauche) -->
+      <div 
+        class="transition-all duration-300 p-3 h-full"
+        [class.w-full]="!selectedTeam"
+        [class.w-2/3]="selectedTeam"
+      >
+        <div class="max-w-7xl mx-auto">
+          
+          <!-- header -->
+          <h1 class="text-2xl font-bold text-white mb-4">Teams</h1>
+
+          <!-- search bar plus buttons (search réduit) -->
+          <div class="mb-4">
+            <div class="bg-gray-900 border border-[#2d3142] rounded-lg p-2 flex items-center gap-3">
+            
+            <div class="w-80 relative">
+              <svg 
+                class="absolute left-3 top-1/2 -translate-y-1/2 text-[#64748b]" 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="20" 
+                height="20" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                stroke-width="2"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+              <input 
+                type="text"
+                placeholder="Search teams..."
+                (input)="onSearch($event)"
+                class="w-full pl-10 pr-3 py-2 bg-gray-800 border border-[#2d3142] rounded-lg text-white placeholder-[#64748b] focus:outline-none focus:border-[#3b82f6] transition-colors text-sm"
+              />
+            </div>
+
+          
+<!-- sort button avec dropdown -->
+<div class="relative">
+  <button 
+    (click)="toggleSortDropdown()"
+    class="flex items-center gap-2 px-3 py-2 bg-gray-800 border border-[#2d3142] rounded-lg text-white hover:border-[#4a5568] transition-colors text-sm"
+  >
+    <!-- icône de filtre/mixer -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="4" y1="21" x2="4" y2="14"></line>
+      <line x1="4" y1="10" x2="4" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="12"></line>
+      <line x1="12" y1="8" x2="12" y2="3"></line>
+      <line x1="20" y1="21" x2="20" y2="16"></line>
+      <line x1="20" y1="12" x2="20" y2="3"></line>
+      <line x1="1" y1="14" x2="7" y2="14"></line>
+      <line x1="9" y1="8" x2="15" y2="8"></line>
+      <line x1="17" y1="16" x2="23" y2="16"></line>
+    </svg>
+    Sort
+  </button>
+              <!-- dropdown menu -->
+              @if (isSortDropdownOpen) {
+                <div class="absolute top-full mt-2 right-0 w-56 bg-gray-800 border border-[#2d3142] rounded-lg shadow-xl z-10 overflow-hidden">
+                  <button 
+                    (click)="selectSort('name-asc')"
+                    [class.bg-[#2d3142]]="currentSort === 'name-asc'"
+                    class="w-full px-4 py-3 text-left text-white hover:bg-[#2d3142] transition-colors flex items-center justify-between"
+                  >
+                    <span>Name (A → Z)</span>
+                    @if (currentSort === 'name-asc') {
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    }
+                  </button>
+                  
+                  <button 
+                    (click)="selectSort('name-desc')"
+                    [class.bg-[#2d3142]]="currentSort === 'name-desc'"
+                    class="w-full px-4 py-3 text-left text-white hover:bg-[#2d3142] transition-colors flex items-center justify-between"
+                  >
+                    <span>Name (Z → A)</span>
+                    @if (currentSort === 'name-desc') {
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    }
+                  </button>
+                  
+                  <div class="border-t border-[#2d3142]"></div>
+                  
+                  <button 
+                    (click)="selectSort('members-desc')"
+                    [class.bg-[#2d3142]]="currentSort === 'members-desc'"
+                    class="w-full px-4 py-3 text-left text-white hover:bg-[#2d3142] transition-colors flex items-center justify-between"
+                  >
+                    <span>Most members</span>
+                    @if (currentSort === 'members-desc') {
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    }
+                  </button>
+                  
+                  <button 
+                    (click)="selectSort('members-asc')"
+                    [class.bg-[#2d3142]]="currentSort === 'members-asc'"
+                    class="w-full px-4 py-3 text-left text-white hover:bg-[#2d3142] transition-colors flex items-center justify-between"
+                  >
+                    <span>Least members</span>
+                    @if (currentSort === 'members-asc') {
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    }
+                  </button>
+                </div>
+              }
+            </div>
+
+            <!-- new team button  -->
+            <button 
+              (click)="openNewTeamModal()"
+              class="flex items-center gap-2 px-3 py-2 bg-[#105EF5] text-white rounded-lg hover:bg-[#2563eb] transition-colors font-medium ml-auto text-sm"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <line x1="19" y1="8" x2="19" y2="14"></line>
+                <line x1="22" y1="11" x2="16" y2="11"></line>
+              </svg>
+              New Team
+            </button>
+            </div>
+          </div>
+
+          <!-- all teams Section -->
+          <div class="bg-gray-900 border border-[#2d3142] rounded-xl p-3">
+         
+<div class="flex items-center justify-between mb-4">
+  <div>
+    <h2 class="text-lg font-semibold text-white mb-1">All teams</h2>
+    <p class="text-[#94a3b8] text-sm">Organize members into focused squads.</p>
+  </div>
+  
+  <!-- view toggle button -->
+  <button 
+    (click)="toggleView(viewMode === 'grid' ? 'list' : 'grid')"
+    class="flex items-center gap-2 px-3 py-1 bg-gray-800 border border-[#2d3142] rounded-lg text-white hover:border-[#4a5568] transition-colors text-sm"
+  >
+    @if (viewMode === 'grid') {
+  <!-- icône du grid -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+    <line x1="12" y1="3" x2="12" y2="21"/>
+    <line x1="3" y1="12" x2="21" y2="12"/>
+  </svg>
+  Grid
+}@else {
+      <!-- icône list -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+        <line x1="8" y1="6" x2="21" y2="6"></line>
+        <line x1="8" y1="12" x2="21" y2="12"></line>
+        <line x1="8" y1="18" x2="21" y2="18"></line>
+        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+      </svg>
+      List
+    }
+  </button>
+</div>
+
+            <!-- grid view (2 colonnes) -->
+            @if (viewMode === 'grid') {
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                @for (team of filteredTeams; track team.id) {
+                  <app-team-card
+                    [team]="team"
+                    [isSelected]="selectedTeam?.id === team.id"
+                    (viewMembers)="viewTeamDetails($event)"
+                  ></app-team-card>
+                }
+              </div>
+            }
+
+            <!-- list view avec sélection -->
+@if (viewMode === 'list') {
+  <div class="space-y-3">
+    @for (team of filteredTeams; track team.id) {
+      <div 
+        class="bg-gray-800 rounded-lg p-4 transition-all flex items-center justify-between border border-[#2d3142] hover:border-[#4a5568]"
+        [class.border-[#3b82f6]]="selectedTeam?.id === team.id"
+        [class.shadow-lg]="selectedTeam?.id === team.id"
+        [class.shadow-[#3b82f6]/20]="selectedTeam?.id === team.id"
+      >
+          <div class="flex items-center gap-4 flex-1">
+          <!-- the avatars -->
+          <div class="flex items-center">
+            @for (member of team.members.slice(0, 3); track member.id; let i = $index) {
+              <img 
+                [src]="member.avatar" 
+                [alt]="member.name"
+                [title]="member.name"
+                class="w-10 h-10 rounded-full border-2 border-gray-800 object-cover"
+                [class.-ml-2]="i > 0"
+              />
+            }
+            @if (team.memberCount > 3) {
+              <div class="w-10 h-10 rounded-full bg-[#2d3142] border-2 border-gray-800 flex items-center justify-center text-[#94a3b8] text-sm font-semibold -ml-2">
+                +{{ team.memberCount - 3 }}
+              </div>
+            }
+          </div>
+
+          <!-- team Info: name above, member count below -->
+          <div class="flex-1">
+            <div class="flex flex-col justify-start">
+              <h3 class="text-white text-base font-semibold -mb-0.5">{{ team.name }}</h3>
+              <div class="bg-gray-900 text-[#94a3b8] text-xs font-medium px-2 py-0.5 rounded-sm inline-flex items-center mt-1 w-auto max-w-max">{{ team.memberCount }} members</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- createdAt + view members -->
+        <div class="flex flex-col items-end gap-1">
+          <div class="flex items-center gap-2">
+            <span class="text-[#64748b] text-xs mr-2">Created {{ formatDate(team.createdAt) }}</span>
+            <button 
+              (click)="viewTeamDetails(team)"
+              class="flex items-center gap-2 text-[#3b82f6]  font-medium hover:text-[#60a5fa] transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              View members
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+}
+
+            <!-- empty state -->
+            @if (filteredTeams.length === 0) {
+              <div class="text-center py-12">
+                <p class="text-[#94a3b8] text-lg">No teams found</p>
+              </div>
+            }
+          </div>
+
+        </div>
+      </div>
+
+      <!-- panneau de détails (à droite) -->
+      @if (selectedTeam) {
+        <div class="w-1/3 transition-all duration-300 overflow-y-auto">
+          <app-team-details-panel 
+            [team]="selectedTeam"
+            (close)="closeTeamDetails()"
+          ></app-team-details-panel>
+        </div>
+      }
+
+    </div>
+  </div>
+</div>
+
+<!-- new team modal -->
+<app-new-team-modal
+  [isOpen]="isNewTeamModalOpen"
+  (close)="closeNewTeamModal()"
+  (teamCreated)="onTeamCreated($event)"
+></app-new-team-modal>
