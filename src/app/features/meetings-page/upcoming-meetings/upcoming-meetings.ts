@@ -1,7 +1,8 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from "lucide-angular";
 import { Meeting } from '../models/meetings.model';
+import { MeetingsService } from '../../../services/meetings.service';
 
 @Component({
   selector: 'app-upcoming-meetings',
@@ -10,7 +11,7 @@ import { Meeting } from '../models/meetings.model';
   templateUrl: './upcoming-meetings.html',
   styleUrl: './upcoming-meetings.css',
 })
-export class UpcomingMeetings {
+export class UpcomingMeetings implements OnInit {
   // Event emitter to send selected meeting to parent
   onMeetingSelect = output<Meeting>();
   
@@ -19,28 +20,15 @@ export class UpcomingMeetings {
   filterType = input<'all' | 'today' | 'week' | 'my'>('all');
   searchQuery = input<string>('');
 
-  meetings: Meeting[] = [
-    { titre: 'Sprint Planning', dateDebut: '2025-11-25', heureDebut: '10:00', heureFin: '11:30',
-      Participants: ['https://i.pravatar.cc/150?img=1', 'https://i.pravatar.cc/150?img=2','https://i.pravatar.cc/150?img=2','https://i.pravatar.cc/150?img=2','https://i.pravatar.cc/150?img=2']
+  meetings: Meeting[] = [];
 
-     },
-    { titre: 'Client Review', dateDebut: '2025-11-27', heureDebut: '14:00', heureFin: '15:00' ,
-      Participants: ['https://i.pravatar.cc/150?img=1', 'https://i.pravatar.cc/150?img=2']
-    },
-    { titre: 'Team Standup', dateDebut: '2025-11-28', heureDebut: '09:00', heureFin: '09:30',
-      Participants: ['https://i.pravatar.cc/150?img=1', 'https://i.pravatar.cc/150?img=2'] },
-    { titre: 'Design Sync', dateDebut: '2025-11-29', heureDebut: '13:00', heureFin: '14:00',
-      Participants: ['https://i.pravatar.cc/150?img=1', 'https://i.pravatar.cc/150?img=2'] },
-    { titre: 'Product Demo', dateDebut: '2025-11-30', heureDebut: '16:00', heureFin: '17:00',
-      Participants: ['https://i.pravatar.cc/150?img=1', 'https://i.pravatar.cc/150?img=2'] },
-    { titre: 'Retrospective', dateDebut: '2025-12-01', heureDebut: '15:00', heureFin: '16:00',
-      Participants: ['https://i.pravatar.cc/150?img=1', 'https://i.pravatar.cc/150?img=2'] },
-    { titre: 'Planning Meeting', dateDebut: '2025-12-02', heureDebut: '11:00', heureFin: '12:00',
-      Participants: ['https://i.pravatar.cc/150?img=1', 'https://i.pravatar.cc/150?img=2'] },
-    { titre: 'Code Review', dateDebut: '2025-12-03', heureDebut: '14:30', heureFin: '15:30',
-      Participants: ['https://i.pravatar.cc/150?img=1', 'https://i.pravatar.cc/150?img=2'], },
-  ];
- // Computed property to filter meetings
+  constructor(private meetingsService: MeetingsService) {}
+
+  ngOnInit(): void {
+    this.meetings = this.meetingsService.getAllMeetings();
+  }
+
+  // Computed property to filter meetings
   filteredMeetings = computed(() => {
     let filtered = this.meetings;
     const today = new Date();
