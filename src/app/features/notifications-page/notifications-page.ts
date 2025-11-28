@@ -9,6 +9,7 @@ import {NotificationDetail} from './notification-detail/notification-detail';
 import { Notification, NotificationStatus } from './Models/Notifications.model';
 import { CommonModule } from '@angular/common';
 import { NotificationService } from './services/notification.service';
+import { NotificationsStats } from './notifications-stats/notifications-stats';
 
 @Component({
   selector: 'app-notifications-page',
@@ -23,6 +24,7 @@ import { NotificationService } from './services/notification.service';
     NotificationsInbox,
     NotificationDetail,
     CommonModule,
+    NotificationsStats,
   ],
   templateUrl: './notifications-page.html',
   styleUrl: './notifications-page.css',

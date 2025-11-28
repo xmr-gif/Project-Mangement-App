@@ -22,7 +22,7 @@
       </app-notifications-header>
       <div class="flex-1 min-h-0 mt-4 flex gap-4">
         <!-- Notifications Inbox (70% when detail is open, 100% otherwise) -->
-        <div [class.w-7/10]="isDetailOpen" [class.flex-1]="!isDetailOpen" class="min-w-0">
+        <div [class.w-7/10]="isDetailOpen || !isDetailOpen" class="min-w-0 flex-1">
           <app-notifications-inbox
             [notifications]="filteredNotifications"
             [selectedNotificationId]="selectedNotification?.id || null"
@@ -30,9 +30,16 @@
           </app-notifications-inbox>
         </div>
 
+        <!-- Right Section: Statistics (30% when detail is closed, hidden when detail is open) -->
+        @if (!isDetailOpen) {
+          <div class="w-3/10 min-w-0">
+            <app-notifications-stats [notifications]="filteredNotifications"></app-notifications-stats>
+          </div>
+        }
+
         <!-- Notification Detail (30%) -->
         @if (isDetailOpen && selectedNotification) {
-          <div class="w-3/10 min-w-0">
+          <div class="w-3/10 min-w-0 transition-all duration-300 ">
             <app-notification-detail
               [notification]="selectedNotification"
               (onClose)="closeNotificationDetail()"
