@@ -1,0 +1,139 @@
+<div class="flex h-screen w-screen bg-gray-800">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-900">
+    <app-sidebar></app-sidebar>
+  </aside>
+
+  <!-- Right side -->
+  <div class="flex flex-col flex-1 overflow-hidden">
+
+    <!-- Navbar -->
+    <div class="w-full flex-shrink-0">
+      <app-navbar></app-navbar>
+    </div>
+
+    <!-- Main content -->
+    <main class="flex-1 p-4 overflow-y-auto">
+      <h2 class="text-white text-2xl font-semibold mb-4">Meetings</h2>
+
+      <div class="p-6 bg-gray-900 rounded-xl flex items-center justify-between mb-4">
+
+        <!-- Left: Search + Filters -->
+        <div class="flex items-center gap-3">
+
+          <!-- Search bar -->
+          <div class="relative w-80">
+            <input
+              type="text"
+              placeholder="Search meetings..."
+              [(ngModel)]="searchQuery"
+              (ngModelChange)="onSearchChange($event)"
+              class="w-full pl-10 pr-3 py-2 rounded-lg bg-gray-800 text-white border border-gray-700
+                     focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+            <lucide-angular name="Search" class="absolute left-1 top-1/2 -translate-y-1/2 text-gray-400" />
+          </div>
+
+          <!-- Filter buttons -->
+          <button
+            (click)="setFilter('today')"
+             [ngClass]="{
+    'bg-blue-700 border-blue-600': activeFilter === 'today',
+    'bg-gray-800 border-gray-700': activeFilter !== 'today',
+    'rounded-xl text-white p-2 flex items-center gap-1 border transition-colors': true
+  }"
+>
+            <lucide-angular name="Calendar" class="w-5 h-5 "></lucide-angular>
+            Today
+          </button>
+          <button
+            (click)="setFilter('week')"
+              [ngClass]="{
+    'bg-blue-700 border-blue-600': activeFilter === 'week',
+    'bg-gray-800 border-gray-700': activeFilter !== 'week',
+    'rounded-xl text-white p-2 flex items-center gap-1 border transition-colors': true
+  }"
+>
+            <lucide-angular name="CalendarRange" class="w-5 h-5"></lucide-angular>
+            This week
+          </button>
+          <button
+            (click)="setFilter('my')"
+              [ngClass]="{
+    'bg-blue-700 border-blue-600': activeFilter === 'my',
+    'bg-gray-800 border-gray-700': activeFilter !== 'my',
+    'rounded-xl text-white p-2 flex items-center gap-1 border transition-colors': true
+  }"
+>
+            <lucide-angular name="Users" class="w-5 h-5"></lucide-angular>
+            My meetings
+          </button>
+
+        </div>
+
+        <!-- Right: Schedule Meeting Button -->
+        <button
+          (click)="openScheduleModal()"
+          class="bg-blue-800 hover:bg-blue-700 border-blue-800 rounded-xl text-white p-2 flex items-center gap-1 transition-colors"
+        >
+          <lucide-angular name="Plus" class="w-5 h-5" />
+          Schedule Meeting
+        </button>
+
+      </div>
+
+      <!-- Upcoming Meetings Section with Split View -->
+      <div class="flex gap-4">
+
+        <!-- Left: Meetings List (70% when details open, 100% when closed) -->
+        <div [class]="selectedMeeting ? 'w-[70%]' : 'w-full'" class="p-6 bg-gray-900 rounded-xl transition-all duration-300">
+
+          <div class="flex items-center justify-between mb-4">
+            <!-- Left: Heading + Paragraph -->
+            <div>
+              <h1 class="text-white text-xl font-semibold">Upcoming</h1>
+              <p class="text-gray-300">Your next scheduled meetings</p>
+            </div>
+
+            <!-- Right: Button -->
+            <div class="bg-gray-800 rounded-xl text-white p-2 flex items-center gap-1">
+              <lucide-angular name="Clock4" class="w-5 h-5" />
+              Next 7 days
+            </div>
+          </div>
+
+          <app-upcoming-meetings
+            [selectedMeeting]="selectedMeeting"
+            [filterType]="activeFilter"
+            [searchQuery]="searchQuery"
+            (onMeetingSelect)="onMeetingSelected($event)"
+          ></app-upcoming-meetings>
+
+        </div>
+
+        <!-- Right: Meeting Details (30%) -->
+        @if (selectedMeeting) {
+          <div class="w-[30%] transition-all duration-300">
+            <app-upcoming-details
+              [meeting]="selectedMeeting"
+              (onClose)="closeDetails()"
+            />
+          </div>
+        }
+
+      </div>
+
+    </main>
+
+  </div>
+
+</div>
+
+<!-- Schedule Meeting Modal -->
+@if (showScheduleModal) {
+  <app-schedule-meeting-modal
+    (onClose)="closeScheduleModal()"
+    (onSave)="onMeetingScheduled($event)"
+  />
+}

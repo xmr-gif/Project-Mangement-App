@@ -12,7 +12,10 @@ module.exports = {
         cardNumber: "#E3F5FF",
 
       },
-
+      width: {
+        '7/10': '70%',
+        '3/10': '30%',
+      },
       fontFamily: {
         sans: ["Space Grotesk", "sans-serif"],
       },
@@ -21,6 +24,8 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+  ],
 }
 

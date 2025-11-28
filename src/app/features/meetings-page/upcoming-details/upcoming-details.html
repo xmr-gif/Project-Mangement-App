@@ -1,0 +1,84 @@
+<div class="bg-gray-900 rounded-xl p-6 h-full">
+  
+  <!-- Header with close button -->
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-white text-xl font-semibold">Meeting Details</h2>
+    <button 
+      (click)="close()"
+      class="text-gray-400 hover:text-white transition-colors"
+    >
+      <lucide-angular name="X" class="w-5 h-5"></lucide-angular>
+    </button>
+  </div>
+
+  <!-- Meeting Info -->
+  <div class="space-y-4">
+     <div>
+      <label class="text-gray-400 text-sm flex items-center gap-2 mb-2">
+        <lucide-angular name="Users" class="w-4 h-4"></lucide-angular>
+        Participants ({{ meeting().Participants.length }})
+      </label>
+     <div class="max-h-[150px] overflow-y-scroll pr-2
+            [&::-webkit-scrollbar]:w-2
+            [&::-webkit-scrollbar-track]:bg-gray-800
+            [&::-webkit-scrollbar-thumb]:bg-gray-700
+            [&::-webkit-scrollbar-thumb]:rounded-md">
+
+  @for (participant of meeting().Participants; track participant; let i = $index) {
+    <div class="flex items-center gap-2 py-1">
+      <img
+        [src]="participant"
+        [alt]="'Participant ' + (i + 1)"
+        class="w-8 h-8 rounded-full"
+      />
+      <span class="text-white text-sm">Participant {{ i + 1 }}</span>
+    </div>
+  }
+</div>
+
+    </div>
+    
+    <!-- Title -->
+    <div>
+      <label class="text-gray-400 text-sm">Title</label>
+      <h3 class="text-white text-lg font-semibold mt-1">
+        {{ meeting().titre }}
+      </h3>
+    </div>
+
+    <!-- Date -->
+    <div>
+      <label class="text-gray-400 text-sm flex items-center gap-2">
+        <lucide-angular name="Calendar" class="w-4 h-4"></lucide-angular>
+        Date
+      </label>
+      <p class="text-white mt-1">{{ meeting().dateDebut }}</p>
+    </div>
+
+    <!-- Time -->
+    <div>
+      <label class="text-gray-400 text-sm flex items-center gap-2">
+        <lucide-angular name="Clock4" class="w-4 h-4"></lucide-angular>
+        Time
+      </label>
+      <p class="text-white mt-1">
+        {{ meeting().heureDebut }} - {{ meeting().heureFin }}
+      </p>
+    </div>
+    
+
+    <!-- Action Buttons -->
+    <div class="flex gap-2 pt-4">
+      <button class="flex-1 bg-blue-700 hover:bg-blue-600 text-white py-2 rounded-lg flex items-center justify-center gap-2">
+        <lucide-angular name="Pencil" class="w-4 h-4"></lucide-angular>
+        Edit
+      </button>
+      <button class="flex-1 bg-red-700 hover:bg-red-600 text-white py-2 rounded-lg flex items-center justify-center gap-2">
+        <lucide-angular name="Trash-2" class="w-4 h-4"></lucide-angular>
+        Delete
+      </button>
+    </div>
+
+  </div>
+
+</div>

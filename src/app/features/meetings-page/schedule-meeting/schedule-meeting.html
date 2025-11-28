@@ -1,0 +1,160 @@
+<!-- Modal Backdrop -->
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" (click)="close()">
+  
+  <!-- Modal Content -->
+  <div class="bg-gray-900 rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto" (click)="$event.stopPropagation()">
+    
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-white text-2xl font-semibold flex items-center gap-2">
+        <lucide-angular name="Calendar" class="w-6 h-6"></lucide-angular>
+        Schedule Meeting
+      </h2>
+      <button 
+        (click)="close()"
+        class="text-gray-400 hover:text-white transition-colors"
+      >
+        <lucide-angular name="X" class="w-6 h-6"></lucide-angular>
+      </button>
+    </div>
+
+    <!-- Form -->
+    <form (ngSubmit)="save()" class="space-y-4">
+      
+      <!-- Meeting Title -->
+      <div>
+        <label class="text-gray-300 text-sm mb-2 block">Meeting Title</label>
+        <input
+          type="text"
+          [(ngModel)]="meeting.titre"
+          name="titre"
+          placeholder="Enter meeting title..."
+          required
+          class="w-full px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700
+                 focus:outline-none focus:ring-2 focus:ring-blue-600"
+        />
+      </div>
+
+      <!-- Date -->
+      <div>
+        <label class="text-gray-300 text-sm mb-2 block flex items-center gap-2">
+          <lucide-angular name="Calendar" class="w-4 h-4"></lucide-angular>
+          Date
+        </label>
+        <input
+          type="date"
+          [(ngModel)]="meeting.dateDebut"
+          name="dateDebut"
+          required
+          class="w-full px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700
+                 focus:outline-none focus:ring-2 focus:ring-blue-600"
+        />
+      </div>
+
+      <!-- Time Range -->
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="text-gray-300 text-sm mb-2 block flex items-center gap-2">
+            <lucide-angular name="Clock4" class="w-4 h-4"></lucide-angular>
+            Start Time
+          </label>
+          <input
+            type="time"
+            [(ngModel)]="meeting.heureDebut"
+            name="heureDebut"
+            required
+            class="w-full px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700
+                   focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+        </div>
+        <div>
+          <label class="text-gray-300 text-sm mb-2 block flex items-center gap-2">
+            <lucide-angular name="Clock4" class="w-4 h-4"></lucide-angular>
+            End Time
+          </label>
+          <input
+            type="time"
+            [(ngModel)]="meeting.heureFin"
+            name="heureFin"
+            required
+            class="w-full px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700
+                   focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+        </div>
+      </div>
+
+      <!-- Participants -->
+      <div>
+        <label class="text-gray-300 text-sm mb-2 block flex items-center gap-2">
+          <lucide-angular name="Users" class="w-4 h-4"></lucide-angular>
+          Participants
+        </label>
+        
+        <!-- Add Participant Input -->
+        <div class="flex gap-2 mb-3">
+          <input
+            type="url"
+            [(ngModel)]="participantUrl"
+            name="participantUrl"
+            placeholder="Enter  URL..."
+            class="flex-1 px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700
+                   focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <button
+            type="button"
+            (click)="addParticipant()"
+            class="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+          >
+            <lucide-angular name="Plus" class="w-4 h-4"></lucide-angular>
+            Add
+          </button>
+        </div>
+
+        <!-- Participants List -->
+        @if (meeting.Participants.length > 0) {
+          <div class="space-y-2 max-h-40 overflow-y-auto">
+            @for (participant of meeting.Participants; track participant; let i = $index) {
+              <div class="flex items-center gap-3 p-3 bg-gray-800 rounded-lg border border-gray-700">
+                <img 
+                  [src]="participant" 
+                  [alt]="'Participant ' + (i + 1)"
+                  class="w-10 h-10 rounded-full"
+                />
+                <span class="text-white flex-1">Participant {{ i + 1 }}</span>
+                <button
+                  type="button"
+                  (click)="removeParticipant(i)"
+                  class="text-red-500 hover:text-red-400"
+                >
+                  <lucide-angular name="Trash2" class="w-4 h-4"></lucide-angular>
+                </button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-3 pt-4">
+        <button
+          type="button"
+          (click)="close()"
+          class="flex-1 bg-gray-800 hover:bg-gray-700 text-white py-3 rounded-lg flex items-center justify-center gap-2 border border-gray-700"
+        >
+          <lucide-angular name="X" class="w-4 h-4"></lucide-angular>
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="flex-1 bg-blue-700 hover:bg-blue-600 text-white py-3 rounded-lg flex items-center justify-center gap-2"
+        >
+          <lucide-angular name="Check" class="w-4 h-4"></lucide-angular>
+          Schedule Meeting
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
