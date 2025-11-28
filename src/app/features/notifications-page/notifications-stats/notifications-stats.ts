@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, Bell, MessageCircle, CheckSquare, Calendar } from 'lucide-angular';
+import { LucideAngularModule } from 'lucide-angular';
 import { Notification, NotificationType } from '../Models/Notifications.model';
 
 interface StatItem {
   label: string;
   value: number;
-  icon: any;
+  icon: string;     // 🔥 now it's a string, not an icon object
   color: string;
 }
 
@@ -24,8 +24,6 @@ export class NotificationsStats implements OnInit {
   mentionsCount: number = 0;
   typeStats: { [key: string]: number } = {};
   stats: StatItem[] = [];
-
-  readonly icons = { Bell, MessageCircle, CheckSquare, Calendar };
 
   ngOnInit() {
     this.calculateStats();
@@ -47,6 +45,7 @@ export class NotificationsStats implements OnInit {
     // Count unread notifications from today
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+
     this.unreadToday = this.notifications.filter(n => {
       const notifDate = new Date(n.date);
       notifDate.setHours(0, 0, 0, 0);
@@ -54,7 +53,9 @@ export class NotificationsStats implements OnInit {
     }).length;
 
     // Count mentions
-    this.mentionsCount = this.notifications.filter(n => n.type === NotificationType.MENTION).length;
+    this.mentionsCount = this.notifications.filter(
+      n => n.type === NotificationType.MENTION
+    ).length;
 
     // Count by type
     this.typeStats = {};
@@ -67,23 +68,22 @@ export class NotificationsStats implements OnInit {
       {
         label: 'Unread Today',
         value: this.unreadToday,
-        icon: this.icons.Bell,
+        icon: 'bell',
         color: 'bg-gray-800 text-gray-300'
       },
       {
         label: 'Mentions',
         value: this.mentionsCount,
-        icon: this.icons.MessageCircle,
+        icon: 'message-circle',
         color: 'bg-gray-800 text-gray-300'
       }
     ];
 
-    // Add type stats
     if (this.typeStats[NotificationType.TASK]) {
       this.stats.push({
         label: 'Tasks',
         value: this.typeStats[NotificationType.TASK],
-        icon: this.icons.CheckSquare,
+        icon: 'check-square',
         color: 'bg-gray-800 text-gray-300'
       });
     }
@@ -92,7 +92,7 @@ export class NotificationsStats implements OnInit {
       this.stats.push({
         label: 'Meetings',
         value: this.typeStats[NotificationType.MEETING],
-        icon: this.icons.Calendar,
+        icon: 'calendar',
         color: 'bg-gray-800 text-gray-300'
       });
     }
