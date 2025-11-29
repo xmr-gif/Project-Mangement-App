@@ -12,30 +12,26 @@
     <app-navbar class="w-full"></app-navbar>
 
     <!-- Main content -->
-    <main class="flex-1 overflow-auto p-6
-                grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <main class="flex-1 overflow-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
 
       <!-- Title -->
       <h1 class="text-white text-3xl font-bold lg:col-span-3">
         Tickets
       </h1>
 
-      <!-- Tickets container FULL HEIGHT -->
-      <div class="bg-gray-900 rounded-xl p-6 lg:col-span-3
-                  flex flex-col min-h-[calc(100vh-200px)]">
+      <!-- Tickets container -->
+      <div class="bg-gray-900 rounded-xl p-6 lg:col-span-3 flex flex-col min-h-[calc(100vh-200px)]">
 
         <!-- Toolbar -->
         <app-tickets-toolbar
           [(searchQuery)]="searchQuery"
           (newTicketClicked)="onNewTicket()"
-          (filterClicked)="onFilter()"
-          (sortClicked)="onSort()"
-          (assigneeClicked)="onAssignee()"
-          (priorityClicked)="onPriority()"
+          (priorityChanged)="onPriorityChanged($event)"
+          (assigneeChanged)="onAssigneeChanged($event)"
         >
         </app-tickets-toolbar>
 
-        <!-- BOARD EXPANDED TO BOTTOM -->
+        <!-- Board -->
         <div class="flex-1 mt-4">
           <app-tickets-board
             [tickets]="filteredTickets()"
@@ -52,3 +48,12 @@
   </div>
 
 </div>
+
+<!-- Modal -->
+@if (showModal()) {
+  <app-new-ticket-modal
+    (closeModal)="onCloseModal()"
+    (createTicket)="onCreateTicket($event)"
+  >
+  </app-new-ticket-modal>
+}

@@ -18,49 +18,77 @@
         />
       </div>
 
-      <!-- Filter Button -->
-      <button
-        (click)="filterClicked.emit()"
-        class="flex items-center gap-2 px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 text-sm border border-gray-700">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-        </svg>
-        Filter
-      </button>
+      <!-- Assignee Dropdown -->
+      <div class="relative assignee-dropdown-toolbar">
+        <button
+          (click)="toggleAssigneeDropdown($event)"
+          class="flex items-center gap-2 px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 text-sm border border-gray-700">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+          Assignee: {{ selectedAssignee() }}
+          <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
 
-      <!-- Sort Button -->
-      <button
-        (click)="sortClicked.emit()"
-        class="flex items-center gap-2 px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 text-sm border border-gray-700">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-        </svg>
-        Sort
-      </button>
+        <!-- Assignee Dropdown Menu -->
+        @if (showAssigneeDropdown()) {
+          <div class="absolute top-full mt-2 left-0 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50 min-w-[200px]">
+            @for (assignee of assignees; track assignee.id) {
+              <button
+                (click)="selectAssignee(assignee, $event)"
+                class="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-700 text-white text-sm first:rounded-t-lg last:rounded-b-lg">
+                @if (assignee.avatar) {
+                  <img [src]="assignee.avatar" class="w-6 h-6 rounded-full" [alt]="assignee.name">
+                } @else {
+                  <div class="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs">
+                    All
+                  </div>
+                }
+                <span>{{ assignee.name }}</span>
+              </button>
+            }
+          </div>
+        }
+      </div>
 
-      <!-- Assignee Filter -->
-      <button
-        (click)="assigneeClicked.emit()"
-        class="flex items-center gap-2 px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 text-sm border border-gray-700">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-        </svg>
-        Assignee: Any
-      </button>
+      <!-- Priority Dropdown -->
+      <div class="relative priority-dropdown-toolbar">
+        <button
+          (click)="togglePriorityDropdown($event)"
+          class="flex items-center gap-2 px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 text-sm border border-gray-700">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+          </svg>
+          Priority: {{ selectedPriority() }}
+          <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
 
-      <!-- Priority Filter -->
-      <button
-        (click)="priorityClicked.emit()"
-        class="flex items-center gap-2 px-4 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 text-sm border border-gray-700">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
-        </svg>
-        Priority: All
-      </button>
+        <!-- Priority Dropdown Menu -->
+        @if (showPriorityDropdown()) {
+          <div class="absolute top-full mt-2 left-0 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50 min-w-[150px]">
+            @for (priority of priorities; track priority) {
+              <button
+                (click)="selectPriority(priority, $event)"
+                class="w-full text-left px-4 py-2 hover:bg-gray-700 text-white text-sm first:rounded-t-lg last:rounded-b-lg flex items-center gap-2">
+                @if (priority === 'High') {
+                  <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                } @else if (priority === 'Medium') {
+                  <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
+                } @else if (priority === 'Low') {
+                  <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                }
+                {{ priority }}
+              </button>
+            }
+          </div>
+        }
+      </div>
     </div>
 
     <!-- Right side: New Ticket button -->

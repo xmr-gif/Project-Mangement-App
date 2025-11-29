@@ -1,18 +1,22 @@
 import { Component, signal, computed } from '@angular/core';
 import { TicketsBoard } from '../tickets/components/tickets-board/tickets-board';
-import { TicketsToolbar } from '../tickets-page/tickets-toolbar/tickets-toolbar';
+import { TicketsToolbar } from './tickets-toolbar/tickets-toolbar';
+import { NewTicketModal, NewTicketData } from './new-ticket-modal/new-ticket-modal';
 import { Ticket } from '../tickets/models/ticket.model';
 import { NavbarComponent } from '../../shared/navbar/navbar';
 import { Sidebar } from '../../shared/sidebar/sidebar';
 
 @Component({
   selector: 'app-tickets-page',
-  imports: [TicketsBoard, TicketsToolbar, NavbarComponent, Sidebar],
+  imports: [TicketsBoard, TicketsToolbar, NewTicketModal, NavbarComponent, Sidebar],
   templateUrl: './tickets-page.html',
   styleUrl: './tickets-page.css',
 })
 export class TicketsPage {
   searchQuery = signal('');
+  showModal = signal(false);
+  selectedPriority = signal('All');
+  selectedAssignee = signal('Any');
 
   allTickets = signal<Ticket[]>([
     {
@@ -67,15 +71,27 @@ export class TicketsPage {
   ]);
 
   filteredTickets = computed(() => {
-    const query = this.searchQuery().toLowerCase().trim();
-    if (!query) return this.allTickets();
+    let tickets = this.allTickets();
 
-    return this.allTickets().filter(ticket =>
-      ticket.title.toLowerCase().includes(query)
-    );
+    // Filter by search query
+    const query = this.searchQuery().toLowerCase().trim();
+    if (query) {
+      tickets = tickets.filter(ticket =>
+        ticket.title.toLowerCase().includes(query)
+      );
+    }
+
+    // Filter by priority
+    const priority = this.selectedPriority();
+    if (priority !== 'All') {
+      tickets = tickets.filter(ticket => ticket.priority === priority);
+    }
+
+    // Filter by assignee (implement your logic here)
+
+    return tickets;
   });
 
-  // Handle ticket moved between columns
   onTicketMoved(event: { ticket: Ticket; newStatus: string }) {
     this.allTickets.update(tickets =>
       tickets.map(t =>
@@ -88,22 +104,34 @@ export class TicketsPage {
   }
 
   onNewTicket() {
-    console.log('Create new ticket');
+    this.showModal.set(true);
   }
 
-  onFilter() {
-    console.log('Filter clicked');
+  onCloseModal() {
+    this.showModal.set(false);
   }
 
-  onSort() {
-    console.log('Sort clicked');
+  onCreateTicket(data: NewTicketData) {
+    const newTicket: Ticket = {
+      id: Date.now().toString(),
+      title: data.title,
+      status: 'todo',
+      priority: data.priority,
+      assignees: data.assignees.map(id => `https://i.pravatar.cc/150?img=${id}`)
+    };
+
+    this.allTickets.update(tickets => [...tickets, newTicket]);
+    this.showModal.set(false);
+    console.log('✅ New ticket created:', newTicket);
   }
 
-  onAssignee() {
-    console.log('Assignee filter clicked');
+  onPriorityChanged(priority: string) {
+    this.selectedPriority.set(priority);
+    console.log('Priority filter:', priority);
   }
 
-  onPriority() {
-    console.log('Priority filter clicked');
+  onAssigneeChanged(assigneeId: string) {
+    this.selectedAssignee.set(assigneeId);
+    console.log('Assignee filter:', assigneeId);
   }
 }
