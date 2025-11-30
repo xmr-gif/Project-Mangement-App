@@ -8,3 +8,33 @@ body {
 .active {
   @apply border-gray-800 bg-gray-800;
 }
+
+/* src/styles.css */
+
+/* CDK Drag & Drop Styles */
+.cdk-drag-preview {
+  opacity: 0.8;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border-radius: 0.5rem;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+  background: #374151;
+  border: 2px dashed #6b7280;
+  border-radius: 0.5rem;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drop-list-dragging .cdk-drag {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Highlight drop zones when dragging */
+.cdk-drop-list-receiving {
+  background-color: rgba(59, 130, 246, 0.1);
+  border-color: #3b82f6 !important;
+}

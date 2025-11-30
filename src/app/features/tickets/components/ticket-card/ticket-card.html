@@ -1,20 +1,28 @@
-<div class="bg-gray-800 rounded-lg p-3 hover:bg-gray-700 cursor-pointer transition-colors mb-2">
-  <h3 class="text-white text-xs font-medium mb-2 line-clamp-2">{{ ticket().title }}</h3>
+@if (ticket()) {
+  <div class="bg-gray-800 rounded-lg p-3 hover:bg-gray-700 cursor-move transition-colors mb-2">
+    <h3 class="text-white text-xs font-medium mb-2 line-clamp-2">
+      {{ ticket().title }}
+    </h3>
 
-  <div class="flex items-center justify-between">
-    <div class="flex -space-x-1">
-      @for (avatar of ticket().assignees; track $index) {
-        <img [src]="avatar"
-             class="w-5 h-5 rounded-full border-2 border-gray-800"
-             alt="assignee">
-      }
+    <div class="flex items-center justify-between">
+      <div class="flex -space-x-1">
+        @for (avatar of ticket().assignees; track $index) {
+          <img
+            [src]="avatar"
+            class="w-5 h-5 rounded-full border-2 border-gray-800"
+            alt="assignee"
+          />
+        }
+      </div>
+
+      <span
+        class="text-[10px] px-1.5 py-0.5 rounded text-white whitespace-nowrap"
+        [class.bg-red-900]="ticket().priority === 'High'"
+        [class.bg-yellow-900]="ticket().priority === 'Medium'"
+        [class.bg-green-900]="ticket().priority === 'Low'"
+      >
+        {{ ticket().priority }}
+      </span>
     </div>
-
-    <span class="text-[10px] px-1.5 py-0.5 rounded text-white whitespace-nowrap"
-          [class.bg-red-900]="ticket().priority === 'High'"
-          [class.bg-yellow-900]="ticket().priority === 'Medium'"
-          [class.bg-green-900]="ticket().priority === 'Low'">
-      {{ ticket().priority }}
-    </span>
   </div>
-</div>
+}

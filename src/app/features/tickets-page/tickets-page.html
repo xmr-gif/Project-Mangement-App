@@ -1,0 +1,59 @@
+<div class="flex h-screen bg-gray-800">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-900">
+    <app-sidebar></app-sidebar>
+  </aside>
+
+  <!-- Right side -->
+  <div class="flex flex-col flex-1">
+
+    <!-- Navbar -->
+    <app-navbar class="w-full"></app-navbar>
+
+    <!-- Main content -->
+    <main class="flex-1 overflow-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Title -->
+      <h1 class="text-white text-3xl font-bold lg:col-span-3">
+        Tickets
+      </h1>
+
+      <!-- Tickets container -->
+      <div class="bg-gray-900 rounded-xl p-6 lg:col-span-3 flex flex-col min-h-[calc(100vh-200px)]">
+
+        <!-- Toolbar -->
+        <app-tickets-toolbar
+          [(searchQuery)]="searchQuery"
+          (newTicketClicked)="onNewTicket()"
+          (priorityChanged)="onPriorityChanged($event)"
+          (assigneeChanged)="onAssigneeChanged($event)"
+        >
+        </app-tickets-toolbar>
+
+        <!-- Board -->
+        <div class="flex-1 mt-4">
+          <app-tickets-board
+            [tickets]="filteredTickets()"
+            (ticketMoved)="onTicketMoved($event)"
+            class="h-full"
+          >
+          </app-tickets-board>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</div>
+
+<!-- Modal -->
+@if (showModal()) {
+  <app-new-ticket-modal
+    (closeModal)="onCloseModal()"
+    (createTicket)="onCreateTicket($event)"
+  >
+  </app-new-ticket-modal>
+}

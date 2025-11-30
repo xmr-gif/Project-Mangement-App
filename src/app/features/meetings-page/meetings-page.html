@@ -36,7 +36,7 @@
           </div>
 
           <!-- Filter buttons -->
-          <button
+          <button 
             (click)="setFilter('today')"
              [ngClass]="{
     'bg-blue-700 border-blue-600': activeFilter === 'today',
@@ -44,10 +44,10 @@
     'rounded-xl text-white p-2 flex items-center gap-1 border transition-colors': true
   }"
 >
-            <lucide-angular name="Calendar" class="w-5 h-5 "></lucide-angular>
+            <lucide-angular name="Calendar" class="w-5 h-5"></lucide-angular>
             Today
           </button>
-          <button
+          <button 
             (click)="setFilter('week')"
               [ngClass]="{
     'bg-blue-700 border-blue-600': activeFilter === 'week',
@@ -58,7 +58,7 @@
             <lucide-angular name="CalendarRange" class="w-5 h-5"></lucide-angular>
             This week
           </button>
-          <button
+          <button 
             (click)="setFilter('my')"
               [ngClass]="{
     'bg-blue-700 border-blue-600': activeFilter === 'my',
@@ -73,7 +73,7 @@
         </div>
 
         <!-- Right: Schedule Meeting Button -->
-        <button
+        <button 
           (click)="openScheduleModal()"
           class="bg-blue-800 hover:bg-blue-700 border-blue-800 rounded-xl text-white p-2 flex items-center gap-1 transition-colors"
         >
@@ -85,7 +85,7 @@
 
       <!-- Upcoming Meetings Section with Split View -->
       <div class="flex gap-4">
-
+        
         <!-- Left: Meetings List (70% when details open, 100% when closed) -->
         <div [class]="selectedMeeting ? 'w-[70%]' : 'w-full'" class="p-6 bg-gray-900 rounded-xl transition-all duration-300">
 
@@ -103,7 +103,7 @@
             </div>
           </div>
 
-          <app-upcoming-meetings
+          <app-upcoming-meetings 
             [selectedMeeting]="selectedMeeting"
             [filterType]="activeFilter"
             [searchQuery]="searchQuery"
@@ -116,7 +116,7 @@
         @if (selectedMeeting) {
           <div class="w-[30%] transition-all duration-300">
             <app-upcoming-details
-              [meeting]="selectedMeeting"
+              [meeting]="selectedMeeting" 
               (onClose)="closeDetails()"
             />
           </div>
