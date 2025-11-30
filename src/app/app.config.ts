@@ -9,9 +9,6 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import {LayoutDashboard, Users,MessageSquare,Video,Bell,LogOut,Ticket, LayoutGrid,CalendarClock,Search,Plus,Calendar,
   ChartNoAxesGantt,LucideAngularModule,
-import {
-  LayoutDashboard, Users, MessageSquare, Video, Bell, LogOut, Ticket, LayoutGrid, CalendarClock, Search, Plus, Calendar,
-  ChartNoAxesGantt, LucideAngularModule,
   CalendarRange,
   Clock4,
   Info,
@@ -20,7 +17,7 @@ import {
   Pencil,
   Check,
   CircleCheckBig,
-  Filter, 
+  Filter,
   CheckSquare,
   MessageCircle,
   Inbox,
@@ -56,7 +53,6 @@ export const appConfig: ApplicationConfig = {
         Trash2,
         X,
         Pencil,
-        Check
         Check,
         CircleCheckBig,
         Filter,
