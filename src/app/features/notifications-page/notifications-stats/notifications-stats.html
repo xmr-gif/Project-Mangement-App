@@ -1,0 +1,28 @@
+<div class="space-y-4 h-full p-6 bg-gray-900 rounded-xl">
+
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-2 gap-3">
+    @for (stat of stats; track stat.label) {
+      <div [class]="stat.color" class="rounded-lg p-4 border border-opacity-30 border-white">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm opacity-75">{{ stat.label }}</p>
+            <p class="text-3xl font-bold mt-1">{{ stat.value }}</p>
+          </div>
+
+          <lucide-angular 
+            [name]="stat.icon" 
+            class="w-8 h-8 opacity-50">
+          </lucide-angular>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Empty State -->
+  @if (stats.length === 0) {
+    <div class="text-center py-8 px-2">
+      <p class="text-gray-400 text-sm">No notifications to show</p>
+    </div>
+  }
+</div>

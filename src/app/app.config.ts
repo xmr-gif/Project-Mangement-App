@@ -9,6 +9,9 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import {LayoutDashboard, Users,MessageSquare,Video,Bell,LogOut,Ticket, LayoutGrid,CalendarClock,Search,Plus,Calendar,
   ChartNoAxesGantt,LucideAngularModule,
+import {
+  LayoutDashboard, Users, MessageSquare, Video, Bell, LogOut, Ticket, LayoutGrid, CalendarClock, Search, Plus, Calendar,
+  ChartNoAxesGantt, LucideAngularModule,
   CalendarRange,
   Clock4,
   Info,
@@ -16,7 +19,14 @@ import {LayoutDashboard, Users,MessageSquare,Video,Bell,LogOut,Ticket, LayoutGri
   X,
   Pencil,
   Check,
+  CircleCheckBig,
+  Filter, 
+  CheckSquare,
+  MessageCircle,
+  Inbox,
+  ExternalLink
   } from 'lucide-angular';
+
 
 
 
@@ -47,6 +57,13 @@ export const appConfig: ApplicationConfig = {
         X,
         Pencil,
         Check
+        Check,
+        CircleCheckBig,
+        Filter,
+        CheckSquare,
+        MessageCircle,
+        Inbox,
+        ExternalLink,
       })
     ),
 
