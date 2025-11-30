@@ -16,7 +16,15 @@ export class TicketsPage {
   searchQuery = signal('');
   showModal = signal(false);
   selectedPriority = signal('All');
-  selectedAssignee = signal('Any');
+  selectedAssigneeId = signal('1'); // '1' = 'Any'
+
+  // Map assignee IDs to avatar URLs
+  assigneeAvatarMap: { [key: string]: string } = {
+    '2': 'https://i.pravatar.cc/150?img=1', // John Doe
+    '3': 'https://i.pravatar.cc/150?img=2', // Jane Smith
+    '4': 'https://i.pravatar.cc/150?img=3', // Mike Johnson
+    '5': 'https://i.pravatar.cc/150?img=4'  // Sarah Williams
+  };
 
   allTickets = signal<Ticket[]>([
     {
@@ -24,49 +32,49 @@ export class TicketsPage {
       title: 'Setup staging environment',
       status: 'todo',
       priority: 'Medium',
-      assignees: ['https://i.pravatar.cc/150?img=1', 'https://i.pravatar.cc/150?img=2']
+      assignees: ['https://i.pravatar.cc/150?img=1', 'https://i.pravatar.cc/150?img=2'] // John + Jane
     },
     {
       id: '2',
       title: 'API rate limiting',
       status: 'doing',
       priority: 'High',
-      assignees: ['https://i.pravatar.cc/150?img=3']
+      assignees: ['https://i.pravatar.cc/150?img=3'] // Mike
     },
     {
       id: '3',
       title: 'Design onboarding flow',
       status: 'todo',
       priority: 'High',
-      assignees: ['https://i.pravatar.cc/150?img=4']
+      assignees: ['https://i.pravatar.cc/150?img=4'] // Sarah
     },
     {
       id: '4',
       title: 'Integrate SSO',
       status: 'done',
       priority: 'Low',
-      assignees: ['https://i.pravatar.cc/150?img=1']
+      assignees: ['https://i.pravatar.cc/150?img=1'] // John
     },
     {
       id: '5',
       title: 'Release v1.2.0',
       status: 'done',
       priority: 'Medium',
-      assignees: ['https://i.pravatar.cc/150?img=6']
+      assignees: ['https://i.pravatar.cc/150?img=2'] // Jane
     },
     {
       id: '6',
       title: 'Refactor auth module',
       status: 'doing',
       priority: 'Medium',
-      assignees: ['https://i.pravatar.cc/150?img=7']
+      assignees: ['https://i.pravatar.cc/150?img=3'] // Mike
     },
     {
       id: '7',
       title: 'Refactor orders module',
       status: 'happyday',
       priority: 'Medium',
-      assignees: ['https://i.pravatar.cc/150?img=8']
+      assignees: ['https://i.pravatar.cc/150?img=4'] // Sarah
     }
   ]);
 
@@ -87,7 +95,14 @@ export class TicketsPage {
       tickets = tickets.filter(ticket => ticket.priority === priority);
     }
 
-    // Filter by assignee (implement your logic here)
+    // Filter by assignee
+    const assigneeId = this.selectedAssigneeId();
+    if (assigneeId !== '1') { // '1' = 'Any'
+      const assigneeAvatar = this.assigneeAvatarMap[assigneeId];
+      tickets = tickets.filter(ticket =>
+        ticket.assignees.includes(assigneeAvatar)
+      );
+    }
 
     return tickets;
   });
@@ -112,12 +127,15 @@ export class TicketsPage {
   }
 
   onCreateTicket(data: NewTicketData) {
+    // Convert assignee IDs to avatar URLs
+    const assigneeAvatars = data.assignees.map(id => this.assigneeAvatarMap[id]);
+
     const newTicket: Ticket = {
       id: Date.now().toString(),
       title: data.title,
       status: 'todo',
       priority: data.priority,
-      assignees: data.assignees.map(id => `https://i.pravatar.cc/150?img=${id}`)
+      assignees: assigneeAvatars
     };
 
     this.allTickets.update(tickets => [...tickets, newTicket]);
@@ -131,7 +149,7 @@ export class TicketsPage {
   }
 
   onAssigneeChanged(assigneeId: string) {
-    this.selectedAssignee.set(assigneeId);
-    console.log('Assignee filter:', assigneeId);
+    this.selectedAssigneeId.set(assigneeId);
+    console.log('Assignee filter:', assigneeId, 'Avatar:', this.assigneeAvatarMap[assigneeId]);
   }
 }
