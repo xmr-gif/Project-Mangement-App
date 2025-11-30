@@ -1,48 +1,42 @@
-<div class="flex h-screen bg-gray-800 overflow-hidden">
+<div class="flex h-screen bg-gray-800">
 
   <!-- Sidebar -->
-  <aside class="w-64 bg-gray-900 flex-shrink-0">
+  <aside class="w-64 bg-gray-900">
     <app-sidebar></app-sidebar>
   </aside>
 
   <!-- Right side -->
-  <div class="flex flex-col flex-1 overflow-hidden">
+  <div class="flex flex-col flex-1">
 
     <!-- Navbar -->
-    <app-navbar class="w-full flex-shrink-0"></app-navbar>
+    <app-navbar class="w-full"></app-navbar>
 
-    <!-- Main content - NO SCROLL -->
-    <main class="flex-1 overflow-hidden p-4 grid grid-cols-1 lg:grid-cols-3 gap-4 auto-rows-min">
+    <!-- Main content -->
+    <main class="flex-1 overflow-auto p-4 grid grid-cols-1 lg:grid-cols-3 gap-4">
 
       <!-- Overview (full width) -->
-      <div class="lg:col-span-3">
-        <app-overview></app-overview>
-      </div>
+      <app-overview class="lg:col-span-3"></app-overview>
 
-      <!-- Tickets - FIXED HEIGHT -->
-      <div class="lg:col-span-2 bg-gray-900 rounded-xl p-4 h-[500px] flex flex-col">
+      <!-- Tickets taking ALL vertical space on the left -->
+      <div class="lg:col-span-2 h-full self-stretch bg-gray-900 rounded-xl p-6">
         <!-- Title + New Ticket button -->
-        <div class="flex items-center justify-between mb-4 flex-shrink-0">
-          <h2 class="text-white text-lg font-semibold">My Tickets</h2>
+        <div class="flex items-center justify-between px-7">
+          <h2 class="text-white text-lg">Tickets</h2>
           <button
-            class="bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 text-sm font-medium"
+            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-medium"
           >
             + New Ticket
           </button>
         </div>
-
-        <!-- Tickets Board - Takes remaining space -->
-        <div class="flex-1 overflow-hidden">
-          <app-tickets-board
-            [tickets]="filteredTickets()"
-            (ticketMoved)="onTicketMoved($event)"
+        <app-tickets-board
+          [tickets]="filteredTickets()"
           >
-          </app-tickets-board>
-        </div>
+        </app-tickets-board>
       </div>
 
-      <!-- Right column - FIXED HEIGHT -->
-      <div class="lg:col-span-1 flex flex-col gap-4 h-[500px] overflow-y-auto custom-scrollbar">
+
+      <!-- Right column -->
+      <div class="flex flex-col gap-4 lg:col-span-1">
         <app-meetings></app-meetings>
         <app-recent-discussions></app-recent-discussions>
       </div>
